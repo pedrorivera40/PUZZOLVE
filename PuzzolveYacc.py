@@ -8,12 +8,26 @@ def run(p): # still not implemented... this is our next step...
     print(p)
     global environment
     if type(p) == tuple :
-        if p[0] == '+' : return run(p[1]) + run(p[2])
-        elif p[0] == '-' : return run(p[1]) - run(p[2])
-        elif p[0] == '*' : return run(p[1]) * run(p[2])
-        elif p[0] == '/' : return run(p[1]) / run(p[2])
-        elif p[0] == '%' : return run(p[1]) % run(p[2])
-        elif p[0] == '=' :
+        if p[0][0] == 'EXIT' : return #something
+        elif p[0][0] == 'END' : return #something
+        elif p[0][0] == 'RUN' : return #something
+        elif p[0][0] == 'TRAVERSE' : return #something
+        elif p[0][0] == 'UP' : return #something
+        elif p[0][0] == 'DOWN' : return #something
+        elif p[0][0] == 'LEFT' : return #something
+        elif p[0][0] == 'RIGHT' : return #something
+        elif p[0][0] == 'UNDO' : return #something
+        elif p[0][0] == 'BUILD' : return #something
+        elif p[0][0] == 'START' : return #something
+        elif p[0][0] == 'SWITCH' : return #something
+        elif p[0][0] == 'OBSTACLE' : return #something
+        elif p[0][0] == 'MAP' : return #something
+        elif p[0][0] == 'EDIT' : return #something
+        elif p[0][0] == 'GET' : return #something
+        elif p[0][0] == 'SOLUTION' : return #something
+        elif p[0][0] == 'REMOVE' : return #something
+        elif p[0][0] == 'REPLACE' : return #something
+        elif p[0][0] == '=' : #esto es del ejemplo de la calc
             environment[p[1]] = run(p[2])
             print(environment[p[1]])
         elif p[0] == 'var' :
@@ -258,6 +272,6 @@ parser = yacc.yacc()
 while True :
 
     try :
-        line = input('> ')
+        line = input('Puzzolve >>> ')
     except EOFError : break
     parser.parse(line.lower())
