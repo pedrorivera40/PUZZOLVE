@@ -8,7 +8,7 @@ def createScreen(dimmensions):
     y = 0
     grid = [[1]*dimmensions for n in range(dimmensions)]
     w = 70
-
+    treeImg = pygame.image.load("colorful-natural-tree.png")
     screen = pygame.display.set_mode((w*dimmensions,w*dimmensions))
 
     screen.fill((34,139,34))
@@ -16,6 +16,7 @@ def createScreen(dimmensions):
     for row in grid:
         for column in row:
             pygame.draw.rect(screen,(0,0,0),(x,y, w,w),1)
+            screen.blit(treeImg,(-130,-130))
             x = x+ w
         y = y + w
         x = 0
