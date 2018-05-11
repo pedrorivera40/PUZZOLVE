@@ -38,19 +38,30 @@ class Screen():
         self.screen.blit(tree, [self.w*8,self.w*5])
         self.add_obstacle(tree,3,2)
 
+        #pygame.display.flip()
+
+        #running = True
+       # while running:
+            #for event in pygame.event.get():
+                #if event.type == pygame.QUIT:
+                    #running = False 
+    
+    def add_obstacle(self,image,x,y):
+        self.obstacle_matrix[y-1,x-1] = 1
+        self.screen.blit(image,[self.w*(x-1),self.w*(y-1)])
         pygame.display.flip()
 
-        running = True
+    def run_grid():
         while running:
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     running = False 
-    
-    def add_obstacle(self,tree,x,y):
-        self.obstacle_matrix[y-1,x-1] = 1
-        self.screen.blit(image,[self.w*(x-1),self.w*(y-1)])
+ 
 
 screen = Screen(10)
 screen.createScreen(10)
- 
 tree = pygame.image.load('Images/tree_sized.png')
+screen.add_obstacle(tree,1,9)
+running = True
+pygame.display.flip()
+scree.run_grid()
