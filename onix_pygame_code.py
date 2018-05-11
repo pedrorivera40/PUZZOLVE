@@ -51,7 +51,8 @@ class Screen():
         self.screen.blit(image,[self.w*(x-1),self.w*(y-1)])
         pygame.display.flip()
 
-    def run_grid():
+    def run_grid(self):
+        running = True
         while running:
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
@@ -62,6 +63,5 @@ screen = Screen(10)
 screen.createScreen(10)
 tree = pygame.image.load('Images/tree_sized.png')
 screen.add_obstacle(tree,1,9)
-running = True
 pygame.display.flip()
-scree.run_grid()
+screen.run_grid()
