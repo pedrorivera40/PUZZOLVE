@@ -36,9 +36,9 @@ class Screen():
 
         self.screen.blit(tree, [0,0])
         self.screen.blit(tree, [self.w*8,self.w*5])
-        self.add_obstacle(tree,3,2)
+        #self.add_obstacle(tree,3,2)
 
-        #pygame.display.flip()
+        pygame.display.flip()
 
         #running = True
        # while running:
@@ -49,24 +49,37 @@ class Screen():
     def add_obstacle(self,image,x,y):
         self.obstacle_matrix[y-1,x-1] = 1
         self.screen.blit(image,[self.w*(x-1),self.w*(y-1)])
-        pygame.display.flip()
+        pygame.display.update()
 
-    def run_grid(self):
-        running = True
-        while running:
-            for event in pygame.event.get():
-                if event.type == pygame.QUIT:
-                    running = False 
- 
+def display_screen():
+    running = True
+    while running:
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                running = False
 
 screen = Screen(10)
 screen.createScreen(10)
 tree = pygame.image.load('Images/tree_sized.png')
-screen.add_obstacle(tree,1,9)
-pygame.display.flip()
-screen.run_grid()
-screen.add_obstacle(tree,6,7)
-screen.run_grid()
+LEFT = 1 
+screen.add_obstacle(tree,1,4)
+#display_screen()
+running = True
+while running:
+    for event in pygame.event.get():
+        if event.type == pygame.QUIT:
+            running = False
+        elif event.type == pygame.MOUSEBUTTONDOWN and event.button == LEFT:
+            screen.add_obstacle(tree,5,5)
+            print("Left mouse pressed")
+ 
+#screen = Screen(10)
+#screen.createScreen(10)
+#tree = pygame.image.load('Images/tree_sized.png')
+
+#screen.add_obstacle(tree,1,4)
+#display_screen()
+#screen.add_obstacle(tree,6,7)
 
 
 
