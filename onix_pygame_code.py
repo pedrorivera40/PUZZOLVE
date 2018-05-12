@@ -65,3 +65,8 @@ tree = pygame.image.load('Images/tree_sized.png')
 screen.add_obstacle(tree,1,9)
 pygame.display.flip()
 screen.run_grid()
+screen.add_obstacle(tree,6,7)
+screen.run_grid()
+
+
+
