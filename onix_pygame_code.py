@@ -17,6 +17,7 @@ class Screen():
         self.x = 0
         self.y = 0
         self.screen =  pygame.display.set_mode((self.w*self.square,self.w*self.square))
+        self.background =  pygame.image.load('Images/grass-pattern.png')
     def createScreen(self,dimensions):
         pygame.init()
         grid = [[1]*dimensions for n in range(dimensions)]
@@ -50,6 +51,16 @@ class Screen():
         self.obstacle_matrix[y-1,x-1] = 1
         self.screen.blit(image,[self.w*(x-1),self.w*(y-1)])
         pygame.display.update()
+    def remove_obstacle(self,x,y):
+        if(self.obstacle_matrix[y-1,x-1] == 1):
+            # do something
+            print("Removin object:")
+            self.obstacle_matrix[y-1,x-1] = 0
+            self.screen.blit(self.background,[self.w*(x-1),self.w*(y-1)],pygame.Rect(self.w*(x-1),self.w*(y-1),69,69))
+            pygame.display.update()
+        else:
+            # nothing to remove 
+            print("There is no obstacle to remove")
 
 def display_screen():
     running = True
@@ -62,6 +73,7 @@ screen = Screen(10)
 screen.createScreen(10)
 tree = pygame.image.load('Images/tree_sized.png')
 LEFT = 1 
+RIGHT = 3   
 screen.add_obstacle(tree,1,4)
 #display_screen()
 running = True
@@ -72,6 +84,10 @@ while running:
         elif event.type == pygame.MOUSEBUTTONDOWN and event.button == LEFT:
             screen.add_obstacle(tree,5,5)
             print("Left mouse pressed")
+            print("Added object")
+        elif event.type == pygame.MOUSEBUTTONDOWN and event.button == RIGHT:
+            screen.remove_obstacle(5,5)
+            print("Finished removing object")
  
 #screen = Screen(10)
 #screen.createScreen(10)
