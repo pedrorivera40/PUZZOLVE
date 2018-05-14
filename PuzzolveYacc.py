@@ -1,40 +1,15 @@
 import ply.yacc as yacc
 from PuzzolveLex import tokens
+from GameController import Controller
+import sys
+global environment
 
-
+c = Controller()
 environment = {}
-
-def run(p): # still not implemented... this is our next step...
-    print(p)
-    global environment
-    if type(p) == tuple :
-        if p[0][0] == 'EXIT' : return #something
-        elif p[0][0] == 'END' : return #something
-        elif p[0][0] == 'RUN' : return #something
-        elif p[0][0] == 'TRAVERSE' : return #something
-        elif p[0][0] == 'UP' : return #something
-        elif p[0][0] == 'DOWN' : return #something
-        elif p[0][0] == 'LEFT' : return #something
-        elif p[0][0] == 'RIGHT' : return #something
-        elif p[0][0] == 'UNDO' : return #something
-        elif p[0][0] == 'BUILD' : return #something
-        elif p[0][0] == 'START' : return #something
-        elif p[0][0] == 'SWITCH' : return #something
-        elif p[0][0] == 'OBSTACLE' : return #something
-        elif p[0][0] == 'MAP' : return #something
-        elif p[0][0] == 'EDIT' : return #something
-        elif p[0][0] == 'GET' : return #something
-        elif p[0][0] == 'SOLUTION' : return #something
-        elif p[0][0] == 'REMOVE' : return #something
-        elif p[0][0] == 'REPLACE' : return #something
-        elif p[0][0] == '=' : #esto es del ejemplo de la calc
-            environment[p[1]] = run(p[2])
-            print(environment[p[1]])
-        elif p[0] == 'var' :
-            if p[1] not in environment : return "UNDECLARED VARIABLE!"
-            return environment[p[1]]
-    else : return p
-
+current_map = None
+built_map = None # BOOLEAN... building map
+built_sol = None # BOOLEAN... building solution
+execution = True
 
 def p_eval(p): # May add more functions...
     '''
@@ -60,7 +35,7 @@ def p_eval(p): # May add more functions...
          | replace_index
          | empty
     '''
-    print(run(p[1]))
+    print(p[0])
 
 def p_go_up(p):
     '''
@@ -88,38 +63,50 @@ def p_run_solution(p):
     '''
     p[0] = ('RUN', p[2])
 
-def p_set_traverse(p):
+def p_set_traverse(p): # dont really thing we need el traverse
     '''
-    set_traverse : SET TRAVERSE TO INT INT
-                 | SET TRAVERSE TO INT COMMA INT
-                 | SET TRAVERSE TO LP INT COMMA INT RP
+    set_traverse : SET TRAVERSE TO INT INT COMMA INT INT
     '''
-    try:
-        p[0] = ('TRAVERSE', p[5], p[7])
-    except:
-        try:
-            p[0] = ('TRAVERSE', p[4], p[6])
-        except:
-            p[0] = ('TRAVERSE', p[4], p[5])
+    if (built_map == False) and (built_sol == None):
+        p[0] = ('TRAVERSE', p[4], p[5], p[7], p[8])
+        c.setTraverse(p[4], p[5],p[7],p[8])
+        print("Set traverse at", p[4], p[5],"and",p[7],p[8])
+    else: print('Oops! "TRAVERSE" can only be invoked while creating a map.')
+
 def p_go_down(p):
     '''
     go_down : MOVE DOWN
             | MOVE DOWN INT
             | MOVE DOWN LP INT RP
     '''
-    try:
-        p[0] = ('DOWN', p[4])
-    except:
+    if built_map and (built_sol== False):
         try:
-            p[0] = ('DOWN', p[3])
+            p[0] = ('DOWN', p[4])
+            c.moveDown(p[4])
+            print("right ",p[4]) #Print statements for testing purposes
         except:
-            p[0] = ('DOWN', 1)
+            try:
+                p[0] = ('DOWN', p[3])
+                c.moveDown(p[3])
+                print("right ",p[3])
+            except:
+                p[0] = ('DOWN', 1)
+                c.moveDown(1)
+                print("right ",1)
+    else: print('Oops! "MOVE DOWN" can only be invoked while creating a solution.')
 
 def p_exit_game(p): # NOTE THE RETURN...
     '''
     exit_game : EXIT
     '''
-    p[0] = 'EXIT'
+    # print(p[2])
+    # print(p[1])
+    if(p[1]) :
+        print("See you later!")
+        #c.exit()
+        sys.exit()
+
+
 
 def p_go_left(p): # TODO -> Make sure that the run method accepts the same second parameter in the except...
     '''
@@ -139,19 +126,30 @@ def p_undo_move(p): # NOTE THE RETURN...
     '''
     undo_move : UNDO
     '''
-    p[0] = 'UNDO'
+    if (built_map == True) and (built_sol == False):
+        p[0] = 'UNDO'
+        c.undoMove()
+    else: print('Oops!! "UNDO" can only be invoked while creating a solution.')
 
 def p_build_map(p): # MUST TAKE CARE... Build Map & Build Solution are the same...
     '''
-    build_map : BUILD ID
+    build_map : BUILD MAP ID
     '''
-    p[0] = ('BUILD', p[2])
+    global built_map
+    if (built_map == False) and ( built_sol == None):
+        p[0] = ('BUILD', p[3])
+        c.buildMap(p[3])
+        built_map = True
+    else: print('Oops! "BUILD MAP" can only be invoked while creating a map.')
+    
 
 def p_build_solution(p): # needed???
     '''
-    build_solution : BUILD ID
+    build_solution : BUILD SOLUTION ID
     '''
-    p[0] = ('BUILD', p[2])
+    if built_map and (built_sol == False):
+        p[0] = ('BUILD', p[3])
+        
 
 def p_go_right(p):
     '''
@@ -159,19 +157,32 @@ def p_go_right(p):
             | MOVE RIGHT INT
             | MOVE RIGHT LP INT RP
     '''
-    try:
-        p[0] = ('RIGHT', p[4])
-    except:
+    if built_map and (built_sol== False):
         try:
-            p[0] = ('RIGHT', p[3])
+            p[0] = ('RIGHT', p[4])
+            c.moveRight(p[4])
+            print("right ",p[4]) # Print statements for testing purposes
         except:
-            p[0] = ('RIGHT', 1)
+            try:
+                p[0] = ('RIGHT', p[3])
+                c.moveRight(p[3])
+                print("right ",p[3])
+            except:
+                p[0] = ('RIGHT', 1)
+                c.moveRight(1)
+                print("right ",1)
+    else: print('Oops! "MOVE RIGHT" can only be invoked while creating a solution.')
+    
 
 def p_start_map(p):
     '''
-    start_map : SET START AT INT
+    start_map : SET START AT INT INT
     '''
-    p[0] = ('START', p[4])
+    if (built_map== False) and (built_sol == None):
+        p[0] = ('START', p[4], p[5])
+        c.setStart(p[4],p[5])
+        print("Start map at ",p[4], p[5]) # testing
+    else: print('Oops! "SET START" can only be invoked while creating a map.')
 
 def p_switch_map(p):
     '''
@@ -197,13 +208,22 @@ def p_map_assign(p):
     '''
     map_assign : CREATE MAP NAMED ID
     '''
+    global built_map
     p[0] = ('MAP', p[4])
+    built_map = False
+    print("it created the map...")
+
 
 def p_solution_assign(p):
     '''
     solution_assign : CREATE SOLUTION NAMED ID
     '''
-    p[0] = ('SOLUTION', p[4])
+    global built_sol
+    if (built_map == True) and (built_sol==None):
+        p[0] = ('SOLUTION', p[4])
+        built_sol = False
+        c.createSolution(p[4])
+    else: print('Oops! "CREATE SOLUTION" can only be invoked after a map is built.')
 
 
 def p_edit_id(p):
@@ -239,7 +259,6 @@ def p_replace_index(p):
                   | REPLACE INT MOVE DOWN LP INT RP
                   | REPLACE INT MOVE LEFT LP INT RP
                   | REPLACE INT MOVE RIGHT LP INT RP
-
     '''
     try:
         p[0] = ('REPLACE', p[2], p[4], p[6])
@@ -263,15 +282,15 @@ def p_error(p):
         print("Oops! Error in: " + str(p.value))
     except:
         print("Oops! Unexpected Error. Try again.")
-
-
+    raise SyntaxError()
 
 parser = yacc.yacc()
 
 # The Scanner...
 while True :
-
     try :
         line = input('Puzzolve >>> ')
     except EOFError : break
-    parser.parse(line.lower())
+    try:
+        parser.parse(line.lower())
+    except SyntaxError as e: print(e.msg)
