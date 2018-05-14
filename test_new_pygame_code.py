@@ -1,5 +1,6 @@
 from pygame.locals import *
 import pygame
+import numpy as np
 
 
 class Player:
@@ -32,16 +33,18 @@ class Grid:
                      1, 0, 1, 0, 1, 1, 1, 1, 0, 1,
                      1, 0, 0, 0, 0, 0, 0, 0, 0, 1,
                      1, 1, 1, 1, 1, 1, 1, 1, 1, 1, ]
-        self.w = 100
+        self.w = 70
         self.x = 0
         self.y = 0
         self.dimensions = 10
         self.image = pygame.image.load("Images/tree_sized.png")
+        self.grid = [[1] * self.dimensions for n in range(self.dimensions)]
+        self.maze_matrix = np.array(self.maze).reshape(10,8)
 
     def draw(self, display_surf):
-        for row in range(self.N):
-            for column in range(self.M):
-                if(self.maze[column] == 1):
+        for row in range(self.M):
+            for column in range(self.N):
+                if(self.maze_matrix[row,column]):
                     display_surf.blit(self.image,(self.w * row, self.w * column))
                     
 
