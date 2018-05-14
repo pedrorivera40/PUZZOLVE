@@ -2,6 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
+      <module fileurl="file://$PROJECT_DIR$/.idea/PUZZOLVE.iml" filepath="$PROJECT_DIR$/.idea/PUZZOLVE.iml" />
       <module fileurl="file://$PROJECT_DIR$/../Puzzolve/.idea/Puzzolve.iml" filepath="$PROJECT_DIR$/../Puzzolve/.idea/Puzzolve.iml" />
     </modules>
   </component>
