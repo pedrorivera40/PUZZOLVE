@@ -4,46 +4,94 @@ import numpy as np
 
 
 class Player:
-    x = 44
-    y = 44
-    speed = 5
+    #Current X and Y with respect to the grid
+    def __init__(self, current_x, current_y, maze_matrix):
+        self.speed = 5
+        self.current_x = current_x
+        self.current_y = current_y
+        self.w = 70
+        #Current X and Y with respect to the screen
+        self.x = self.w * self.current_x
+        self.y = self.w * self.current_y
+        self.matrix_row = maze_matrix.shape[0]
+        self.matrix_column = maze_matrix.shape[1]
+        self.maze_matrix = maze_matrix
 
     def moveRight(self):
-        self.x = self.x + self.speed
+        if((self.current_x + 1) == self.matrix_column):
+            print(self.current_y)
+            return "CANNOT MOVE"
+        elif(self.maze_matrix[self.current_y, self.current_x + 1]):
+            return "OBSTACULE"
+        else:
+            position_x = self.w * (self.current_x + 1)
+            while(self.x != position_x):
+                print("WHILE" + str(self.current_y))
+                self.x += self.speed
+            self.current_x += 1  
+
 
     def moveLeft(self):
-        self.x = self.x - self.speed
+        if((self.current_x - 1) == -1 or self.maze_matrix[self.current_y, self.current_x - 1]):
+            return "CANNOT MOVE"
+        position_x = self.w * (self.current_x - 1)
+        while(self.x != position_x):
+            self.x -= self.speed
+        self.current_x -= 1  
 
     def moveUp(self):
-        self.y = self.y - self.speed
+        if((self.current_y - 1) == -1 or self.maze_matrix[self.current_y - 1, self.current_x]):
+            return "CANNOT MOVE"
+        position_y = self.w * (self.current_y - 1)
+        while(self.y != position_y):
+            self.y -= self.speed
+        self.current_y -= 1 
 
     def moveDown(self):
-        self.y = self.y + self.speed
+        print("MOVE DOWN " + str(self.current_x))
+        if((self.current_y + 1) == self.matrix_row or self.maze_matrix[self.current_y + 1, self.current_x]):
+            return "CANNOT MOVE"
+        position_y = self.w * (self.current_y + 1)
+        while(self.y != position_y):
+            print("MOVE DOWN inside while " + str(self.current_y))
+            self.y += self.speed
+        self.current_y += 1 
 
 
 class Grid:
     def __init__(self):
         self.M = 10 #Columns
         self.N = 8 #Rows
-        self.maze = [1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
-                     1, 0, 0, 0, 0, 0, 0, 0, 0, 1,
-                     1, 0, 0, 0, 0, 0, 0, 0, 0, 1,
-                     1, 0, 1, 1, 1, 1, 1, 1, 0, 1,
-                     1, 0, 1, 0, 0, 0, 0, 0, 0, 1,
-                     1, 0, 1, 0, 1, 1, 1, 1, 0, 1,
-                     1, 0, 0, 0, 0, 0, 0, 0, 0, 1,
-                     1, 1, 1, 1, 1, 1, 1, 1, 1, 1, ]
+        # self.maze = [1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
+        #              1, 0, 0, 0, 0, 0, 0, 0, 0, 1,
+        #              1, 0, 0, 0, 0, 0, 0, 0, 0, 1,
+        #              1, 0, 1, 1, 1, 1, 1, 1, 0, 1,
+        #              1, 0, 1, 0, 0, 0, 0, 0, 0, 1,
+        #              1, 0, 1, 0, 1, 1, 1, 1, 0, 1,
+        #              1, 0, 0, 0, 0, 0, 0, 0, 0, 1,
+        #              1, 1, 1, 1, 1, 1, 1, 1, 1, 1, ]
+        self.maze = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+                     0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+                     0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+                     0, 0, 0, 0, 1, 0, 0, 0, 0, 0,
+                     0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+                     0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+                     0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+                     0, 0, 0, 0, 0, 0, 0, 0, 0, 0, ]
         self.w = 70
         self.x = 0
         self.y = 0
         self.dimensions = 10
         self.image = pygame.image.load("Images/tree_sized.png")
+        self.image = pygame.transform.rotozoom(self.image, 0, 0.8)
         self.grid = [[1] * self.dimensions for n in range(self.dimensions)]
-        self.maze_matrix = np.array(self.maze).reshape(10,8)
+        self.maze_matrix = np.array(self.maze).reshape(8,10)
+        print(type(self.maze_matrix))
+        
 
     def draw(self, display_surf):
-        for row in range(self.M):
-            for column in range(self.N):
+        for row in range(self.N):
+            for column in range(self.M):
                 if(self.maze_matrix[row,column]):
                     display_surf.blit(self.image,(self.w * row, self.w * column))
                     
@@ -61,8 +109,8 @@ class App:
         self._display_surf = None
         self._image_surf = None
         self._block_surf = None
-        self.player = Player()
         self.grid = Grid()
+        self.player = Player(0,0, self.grid.maze_matrix)
         self.Background = None
         self.images_dict = {
             'RIGHT': [],
@@ -76,7 +124,7 @@ class App:
     def on_init(self):
         pygame.init()
         self._display_surf = pygame.display.set_mode((self.windowWidth, self.windowHeight), pygame.HWSURFACE)
-        pygame.display.set_caption('Pygame pythonspot.com example')
+        pygame.display.set_caption('PUZZOLVE')
         self._running = True
         self.Background = pygame.image.load("Images/grass-pattern.png").convert()
         self.images_dict['DOWN'].append(pygame.image.load("Images/ironman_front.png"))
