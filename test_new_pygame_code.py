@@ -20,10 +20,10 @@ class Player:
         self.y = self.y + self.speed
 
 
-class Maze:
+class Grid:
     def __init__(self):
-        self.M = 10
-        self.N = 8
+        self.M = 10 #Columns
+        self.N = 8 #Rows
         self.maze = [1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
                      1, 0, 0, 0, 0, 0, 0, 0, 0, 1,
                      1, 0, 0, 0, 0, 0, 0, 0, 0, 1,
@@ -32,18 +32,18 @@ class Maze:
                      1, 0, 1, 0, 1, 1, 1, 1, 0, 1,
                      1, 0, 0, 0, 0, 0, 0, 0, 0, 1,
                      1, 1, 1, 1, 1, 1, 1, 1, 1, 1, ]
+        self.w = 100
+        self.x = 0
+        self.y = 0
+        self.dimensions = 10
+        self.image = pygame.image.load("Images/tree_sized.png")
 
-    def draw(self, display_surf, image_surf):
-        bx = 0
-        by = 0
-        for i in range(0, self.M * self.N):
-            if self.maze[bx + (by * self.M)] == 1:
-                display_surf.blit(image_surf, (bx * 44, by * 44))
-
-            bx = bx + 1
-            if bx > self.M - 1:
-                bx = 0
-                by = by + 1
+    def draw(self, display_surf):
+        for row in range(self.N):
+            for column in range(self.M):
+                if(self.maze[column] == 1):
+                    display_surf.blit(self.image,(self.w * row, self.w * column))
+                    
 
 
 class App:
@@ -59,7 +59,7 @@ class App:
         self._image_surf = None
         self._block_surf = None
         self.player = Player()
-        self.maze = Maze()
+        self.grid = Grid()
         self.Background = None
         self.images_dict = {
             'RIGHT': [],
@@ -69,10 +69,10 @@ class App:
         }
         self.counter = 0
 
+
     def on_init(self):
         pygame.init()
         self._display_surf = pygame.display.set_mode((self.windowWidth, self.windowHeight), pygame.HWSURFACE)
-
         pygame.display.set_caption('Pygame pythonspot.com example')
         self._running = True
         self.Background = pygame.image.load("Images/grass-pattern.png").convert()
@@ -90,6 +90,7 @@ class App:
         self.images_dict['RIGHT'].append(pygame.image.load("Images/ironman_right2.png"))
         self._image_surf = self.images_dict['DOWN'][0]
         self._image_surf = pygame.transform.rotozoom(self._image_surf, 0, 1.5)
+        self._block_surf = pygame.image.load("Images/tree_sized.png")
 
     def on_event(self, event):
         if event.type == QUIT:
@@ -116,7 +117,9 @@ class App:
     def on_render(self):
         self._display_surf.blit(self.Background, (0, 0))
         self._display_surf.blit(self._image_surf, (self.player.x, self.player.y))
-        pygame.display.flip()
+        self.grid.draw(self._display_surf)
+        pygame.display.update()
+
 
     def on_cleanup(self):
         pygame.quit()
