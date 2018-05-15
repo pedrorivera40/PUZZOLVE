@@ -1,0 +1,1207 @@
+Created by PLY version 3.11 (http://www.dabeaz.com/ply)
+
+Unused terminals:
+
+    MOVES
+    OBSTABLE
+    COMMENT
+
+Grammar
+
+Rule 0     S' -> eval
+Rule 1     eval -> go_up
+Rule 2     eval -> end_map
+Rule 3     eval -> run_solution
+Rule 4     eval -> set_traverse
+Rule 5     eval -> go_down
+Rule 6     eval -> exit_game
+Rule 7     eval -> go_left
+Rule 8     eval -> undo_move
+Rule 9     eval -> build_map
+Rule 10    eval -> build_solution
+Rule 11    eval -> go_right
+Rule 12    eval -> start_map
+Rule 13    eval -> switch_map
+Rule 14    eval -> set_obstacle
+Rule 15    eval -> map_assign
+Rule 16    eval -> solution_assign
+Rule 17    eval -> edit_id
+Rule 18    eval -> get_id
+Rule 19    eval -> remove
+Rule 20    eval -> replace_index
+Rule 21    eval -> empty
+Rule 22    go_up -> MOVE UP
+Rule 23    go_up -> MOVE UP INT
+Rule 24    go_up -> MOVE UP LP INT RP
+Rule 25    end_map -> SET END AT INT
+Rule 26    run_solution -> RUN ID
+Rule 27    set_traverse -> SET TRAVERSE TO INT INT
+Rule 28    set_traverse -> SET TRAVERSE TO INT COMMA INT
+Rule 29    set_traverse -> SET TRAVERSE TO LP INT COMMA INT RP
+Rule 30    go_down -> MOVE DOWN
+Rule 31    go_down -> MOVE DOWN INT
+Rule 32    go_down -> MOVE DOWN LP INT RP
+Rule 33    exit_game -> EXIT
+Rule 34    go_left -> MOVE LEFT
+Rule 35    go_left -> MOVE LEFT INT
+Rule 36    go_left -> MOVE LEFT LP INT RP
+Rule 37    undo_move -> UNDO
+Rule 38    build_map -> BUILD ID
+Rule 39    build_solution -> BUILD ID
+Rule 40    go_right -> MOVE RIGHT
+Rule 41    go_right -> MOVE RIGHT INT
+Rule 42    go_right -> MOVE RIGHT LP INT RP
+Rule 43    start_map -> SET START AT INT
+Rule 44    switch_map -> SWITCH TO ID
+Rule 45    set_obstacle -> ADD ID AT INT INT
+Rule 46    set_obstacle -> ADD ID AT INT COMMA INT
+Rule 47    set_obstacle -> ADD ID AT LP INT COMMA INT RP
+Rule 48    map_assign -> CREATE MAP NAMED ID
+Rule 49    solution_assign -> CREATE SOLUTION NAMED ID
+Rule 50    edit_id -> EDIT ID
+Rule 51    get_id -> GET ID
+Rule 52    remove -> REMOVE INT
+Rule 53    replace_index -> REPLACE ID ID
+Rule 54    replace_index -> REPLACE INT MOVE UP
+Rule 55    replace_index -> REPLACE INT MOVE DOWN
+Rule 56    replace_index -> REPLACE INT MOVE LEFT
+Rule 57    replace_index -> REPLACE INT MOVE RIGHT
+Rule 58    replace_index -> REPLACE INT MOVE UP INT
+Rule 59    replace_index -> REPLACE INT MOVE DOWN INT
+Rule 60    replace_index -> REPLACE INT MOVE LEFT INT
+Rule 61    replace_index -> REPLACE INT MOVE RIGHT INT
+Rule 62    replace_index -> REPLACE INT MOVE UP LP INT RP
+Rule 63    replace_index -> REPLACE INT MOVE DOWN LP INT RP
+Rule 64    replace_index -> REPLACE INT MOVE LEFT LP INT RP
+Rule 65    replace_index -> REPLACE INT MOVE RIGHT LP INT RP
+Rule 66    empty -> <empty>
+
+Terminals, with rules where they appear
+
+ADD                  : 45 46 47
+AT                   : 25 43 45 46 47
+BUILD                : 38 39
+COMMA                : 28 29 46 47
+COMMENT              : 
+CREATE               : 48 49
+DOWN                 : 30 31 32 55 59 63
+EDIT                 : 50
+END                  : 25
+EXIT                 : 33
+GET                  : 51
+ID                   : 26 38 39 44 45 46 47 48 49 50 51 53 53
+INT                  : 23 24 25 27 27 28 28 29 29 31 32 35 36 41 42 43 45 45 46 46 47 47 52 54 55 56 57 58 58 59 59 60 60 61 61 62 62 63 63 64 64 65 65
+LEFT                 : 34 35 36 56 60 64
+LP                   : 24 29 32 36 42 47 62 63 64 65
+MAP                  : 48
+MOVE                 : 22 23 24 30 31 32 34 35 36 40 41 42 54 55 56 57 58 59 60 61 62 63 64 65
+MOVES                : 
+NAMED                : 48 49
+OBSTABLE             : 
+REMOVE               : 52
+REPLACE              : 53 54 55 56 57 58 59 60 61 62 63 64 65
+RIGHT                : 40 41 42 57 61 65
+RP                   : 24 29 32 36 42 47 62 63 64 65
+RUN                  : 26
+SET                  : 25 27 28 29 43
+SOLUTION             : 49
+START                : 43
+SWITCH               : 44
+TO                   : 27 28 29 44
+TRAVERSE             : 27 28 29
+UNDO                 : 37
+UP                   : 22 23 24 54 58 62
+error                : 
+
+Nonterminals, with rules where they appear
+
+build_map            : 9
+build_solution       : 10
+edit_id              : 17
+empty                : 21
+end_map              : 2
+eval                 : 0
+exit_game            : 6
+get_id               : 18
+go_down              : 5
+go_left              : 7
+go_right             : 11
+go_up                : 1
+map_assign           : 15
+remove               : 19
+replace_index        : 20
+run_solution         : 3
+set_obstacle         : 14
+set_traverse         : 4
+solution_assign      : 16
+start_map            : 12
+switch_map           : 13
+undo_move            : 8
+
+Parsing method: LALR
+
+state 0
+
+    (0) S' -> . eval
+    (1) eval -> . go_up
+    (2) eval -> . end_map
+    (3) eval -> . run_solution
+    (4) eval -> . set_traverse
+    (5) eval -> . go_down
+    (6) eval -> . exit_game
+    (7) eval -> . go_left
+    (8) eval -> . undo_move
+    (9) eval -> . build_map
+    (10) eval -> . build_solution
+    (11) eval -> . go_right
+    (12) eval -> . start_map
+    (13) eval -> . switch_map
+    (14) eval -> . set_obstacle
+    (15) eval -> . map_assign
+    (16) eval -> . solution_assign
+    (17) eval -> . edit_id
+    (18) eval -> . get_id
+    (19) eval -> . remove
+    (20) eval -> . replace_index
+    (21) eval -> . empty
+    (22) go_up -> . MOVE UP
+    (23) go_up -> . MOVE UP INT
+    (24) go_up -> . MOVE UP LP INT RP
+    (25) end_map -> . SET END AT INT
+    (26) run_solution -> . RUN ID
+    (27) set_traverse -> . SET TRAVERSE TO INT INT
+    (28) set_traverse -> . SET TRAVERSE TO INT COMMA INT
+    (29) set_traverse -> . SET TRAVERSE TO LP INT COMMA INT RP
+    (30) go_down -> . MOVE DOWN
+    (31) go_down -> . MOVE DOWN INT
+    (32) go_down -> . MOVE DOWN LP INT RP
+    (33) exit_game -> . EXIT
+    (34) go_left -> . MOVE LEFT
+    (35) go_left -> . MOVE LEFT INT
+    (36) go_left -> . MOVE LEFT LP INT RP
+    (37) undo_move -> . UNDO
+    (38) build_map -> . BUILD ID
+    (39) build_solution -> . BUILD ID
+    (40) go_right -> . MOVE RIGHT
+    (41) go_right -> . MOVE RIGHT INT
+    (42) go_right -> . MOVE RIGHT LP INT RP
+    (43) start_map -> . SET START AT INT
+    (44) switch_map -> . SWITCH TO ID
+    (45) set_obstacle -> . ADD ID AT INT INT
+    (46) set_obstacle -> . ADD ID AT INT COMMA INT
+    (47) set_obstacle -> . ADD ID AT LP INT COMMA INT RP
+    (48) map_assign -> . CREATE MAP NAMED ID
+    (49) solution_assign -> . CREATE SOLUTION NAMED ID
+    (50) edit_id -> . EDIT ID
+    (51) get_id -> . GET ID
+    (52) remove -> . REMOVE INT
+    (53) replace_index -> . REPLACE ID ID
+    (54) replace_index -> . REPLACE INT MOVE UP
+    (55) replace_index -> . REPLACE INT MOVE DOWN
+    (56) replace_index -> . REPLACE INT MOVE LEFT
+    (57) replace_index -> . REPLACE INT MOVE RIGHT
+    (58) replace_index -> . REPLACE INT MOVE UP INT
+    (59) replace_index -> . REPLACE INT MOVE DOWN INT
+    (60) replace_index -> . REPLACE INT MOVE LEFT INT
+    (61) replace_index -> . REPLACE INT MOVE RIGHT INT
+    (62) replace_index -> . REPLACE INT MOVE UP LP INT RP
+    (63) replace_index -> . REPLACE INT MOVE DOWN LP INT RP
+    (64) replace_index -> . REPLACE INT MOVE LEFT LP INT RP
+    (65) replace_index -> . REPLACE INT MOVE RIGHT LP INT RP
+    (66) empty -> .
+
+    MOVE            shift and go to state 30
+    SET             shift and go to state 6
+    RUN             shift and go to state 8
+    EXIT            shift and go to state 5
+    UNDO            shift and go to state 7
+    BUILD           shift and go to state 2
+    SWITCH          shift and go to state 28
+    ADD             shift and go to state 17
+    CREATE          shift and go to state 1
+    EDIT            shift and go to state 22
+    GET             shift and go to state 3
+    REMOVE          shift and go to state 33
+    REPLACE         shift and go to state 27
+    $end            reduce using rule 66 (empty -> .)
+
+    edit_id                        shift and go to state 4
+    empty                          shift and go to state 34
+    end_map                        shift and go to state 20
+    replace_index                  shift and go to state 21
+    build_map                      shift and go to state 23
+    eval                           shift and go to state 24
+    go_right                       shift and go to state 9
+    go_up                          shift and go to state 10
+    solution_assign                shift and go to state 19
+    go_down                        shift and go to state 25
+    switch_map                     shift and go to state 26
+    build_solution                 shift and go to state 11
+    set_obstacle                   shift and go to state 12
+    exit_game                      shift and go to state 13
+    map_assign                     shift and go to state 14
+    undo_move                      shift and go to state 15
+    remove                         shift and go to state 29
+    set_traverse                   shift and go to state 16
+    start_map                      shift and go to state 31
+    get_id                         shift and go to state 32
+    run_solution                   shift and go to state 18
+    go_left                        shift and go to state 35
+
+state 1
+
+    (48) map_assign -> CREATE . MAP NAMED ID
+    (49) solution_assign -> CREATE . SOLUTION NAMED ID
+
+    MAP             shift and go to state 36
+    SOLUTION        shift and go to state 37
+
+
+state 2
+
+    (38) build_map -> BUILD . ID
+    (39) build_solution -> BUILD . ID
+
+    ID              shift and go to state 38
+
+
+state 3
+
+    (51) get_id -> GET . ID
+
+    ID              shift and go to state 39
+
+
+state 4
+
+    (17) eval -> edit_id .
+
+    $end            reduce using rule 17 (eval -> edit_id .)
+
+
+state 5
+
+    (33) exit_game -> EXIT .
+
+    $end            reduce using rule 33 (exit_game -> EXIT .)
+
+
+state 6
+
+    (25) end_map -> SET . END AT INT
+    (27) set_traverse -> SET . TRAVERSE TO INT INT
+    (28) set_traverse -> SET . TRAVERSE TO INT COMMA INT
+    (29) set_traverse -> SET . TRAVERSE TO LP INT COMMA INT RP
+    (43) start_map -> SET . START AT INT
+
+    END             shift and go to state 42
+    TRAVERSE        shift and go to state 40
+    START           shift and go to state 41
+
+
+state 7
+
+    (37) undo_move -> UNDO .
+
+    $end            reduce using rule 37 (undo_move -> UNDO .)
+
+
+state 8
+
+    (26) run_solution -> RUN . ID
+
+    ID              shift and go to state 43
+
+
+state 9
+
+    (11) eval -> go_right .
+
+    $end            reduce using rule 11 (eval -> go_right .)
+
+
+state 10
+
+    (1) eval -> go_up .
+
+    $end            reduce using rule 1 (eval -> go_up .)
+
+
+state 11
+
+    (10) eval -> build_solution .
+
+    $end            reduce using rule 10 (eval -> build_solution .)
+
+
+state 12
+
+    (14) eval -> set_obstacle .
+
+    $end            reduce using rule 14 (eval -> set_obstacle .)
+
+
+state 13
+
+    (6) eval -> exit_game .
+
+    $end            reduce using rule 6 (eval -> exit_game .)
+
+
+state 14
+
+    (15) eval -> map_assign .
+
+    $end            reduce using rule 15 (eval -> map_assign .)
+
+
+state 15
+
+    (8) eval -> undo_move .
+
+    $end            reduce using rule 8 (eval -> undo_move .)
+
+
+state 16
+
+    (4) eval -> set_traverse .
+
+    $end            reduce using rule 4 (eval -> set_traverse .)
+
+
+state 17
+
+    (45) set_obstacle -> ADD . ID AT INT INT
+    (46) set_obstacle -> ADD . ID AT INT COMMA INT
+    (47) set_obstacle -> ADD . ID AT LP INT COMMA INT RP
+
+    ID              shift and go to state 44
+
+
+state 18
+
+    (3) eval -> run_solution .
+
+    $end            reduce using rule 3 (eval -> run_solution .)
+
+
+state 19
+
+    (16) eval -> solution_assign .
+
+    $end            reduce using rule 16 (eval -> solution_assign .)
+
+
+state 20
+
+    (2) eval -> end_map .
+
+    $end            reduce using rule 2 (eval -> end_map .)
+
+
+state 21
+
+    (20) eval -> replace_index .
+
+    $end            reduce using rule 20 (eval -> replace_index .)
+
+
+state 22
+
+    (50) edit_id -> EDIT . ID
+
+    ID              shift and go to state 45
+
+
+state 23
+
+    (9) eval -> build_map .
+
+    $end            reduce using rule 9 (eval -> build_map .)
+
+
+state 24
+
+    (0) S' -> eval .
+
+
+
+state 25
+
+    (5) eval -> go_down .
+
+    $end            reduce using rule 5 (eval -> go_down .)
+
+
+state 26
+
+    (13) eval -> switch_map .
+
+    $end            reduce using rule 13 (eval -> switch_map .)
+
+
+state 27
+
+    (53) replace_index -> REPLACE . ID ID
+    (54) replace_index -> REPLACE . INT MOVE UP
+    (55) replace_index -> REPLACE . INT MOVE DOWN
+    (56) replace_index -> REPLACE . INT MOVE LEFT
+    (57) replace_index -> REPLACE . INT MOVE RIGHT
+    (58) replace_index -> REPLACE . INT MOVE UP INT
+    (59) replace_index -> REPLACE . INT MOVE DOWN INT
+    (60) replace_index -> REPLACE . INT MOVE LEFT INT
+    (61) replace_index -> REPLACE . INT MOVE RIGHT INT
+    (62) replace_index -> REPLACE . INT MOVE UP LP INT RP
+    (63) replace_index -> REPLACE . INT MOVE DOWN LP INT RP
+    (64) replace_index -> REPLACE . INT MOVE LEFT LP INT RP
+    (65) replace_index -> REPLACE . INT MOVE RIGHT LP INT RP
+
+    ID              shift and go to state 47
+    INT             shift and go to state 46
+
+
+state 28
+
+    (44) switch_map -> SWITCH . TO ID
+
+    TO              shift and go to state 48
+
+
+state 29
+
+    (19) eval -> remove .
+
+    $end            reduce using rule 19 (eval -> remove .)
+
+
+state 30
+
+    (22) go_up -> MOVE . UP
+    (23) go_up -> MOVE . UP INT
+    (24) go_up -> MOVE . UP LP INT RP
+    (30) go_down -> MOVE . DOWN
+    (31) go_down -> MOVE . DOWN INT
+    (32) go_down -> MOVE . DOWN LP INT RP
+    (34) go_left -> MOVE . LEFT
+    (35) go_left -> MOVE . LEFT INT
+    (36) go_left -> MOVE . LEFT LP INT RP
+    (40) go_right -> MOVE . RIGHT
+    (41) go_right -> MOVE . RIGHT INT
+    (42) go_right -> MOVE . RIGHT LP INT RP
+
+    UP              shift and go to state 50
+    DOWN            shift and go to state 51
+    LEFT            shift and go to state 52
+    RIGHT           shift and go to state 49
+
+
+state 31
+
+    (12) eval -> start_map .
+
+    $end            reduce using rule 12 (eval -> start_map .)
+
+
+state 32
+
+    (18) eval -> get_id .
+
+    $end            reduce using rule 18 (eval -> get_id .)
+
+
+state 33
+
+    (52) remove -> REMOVE . INT
+
+    INT             shift and go to state 53
+
+
+state 34
+
+    (21) eval -> empty .
+
+    $end            reduce using rule 21 (eval -> empty .)
+
+
+state 35
+
+    (7) eval -> go_left .
+
+    $end            reduce using rule 7 (eval -> go_left .)
+
+
+state 36
+
+    (48) map_assign -> CREATE MAP . NAMED ID
+
+    NAMED           shift and go to state 54
+
+
+state 37
+
+    (49) solution_assign -> CREATE SOLUTION . NAMED ID
+
+    NAMED           shift and go to state 55
+
+
+state 38
+
+    (38) build_map -> BUILD ID .
+    (39) build_solution -> BUILD ID .
+
+  ! reduce/reduce conflict for $end resolved using rule 38 (build_map -> BUILD ID .)
+    $end            reduce using rule 38 (build_map -> BUILD ID .)
+
+  ! $end            [ reduce using rule 39 (build_solution -> BUILD ID .) ]
+
+
+state 39
+
+    (51) get_id -> GET ID .
+
+    $end            reduce using rule 51 (get_id -> GET ID .)
+
+
+state 40
+
+    (27) set_traverse -> SET TRAVERSE . TO INT INT
+    (28) set_traverse -> SET TRAVERSE . TO INT COMMA INT
+    (29) set_traverse -> SET TRAVERSE . TO LP INT COMMA INT RP
+
+    TO              shift and go to state 56
+
+
+state 41
+
+    (43) start_map -> SET START . AT INT
+
+    AT              shift and go to state 57
+
+
+state 42
+
+    (25) end_map -> SET END . AT INT
+
+    AT              shift and go to state 58
+
+
+state 43
+
+    (26) run_solution -> RUN ID .
+
+    $end            reduce using rule 26 (run_solution -> RUN ID .)
+
+
+state 44
+
+    (45) set_obstacle -> ADD ID . AT INT INT
+    (46) set_obstacle -> ADD ID . AT INT COMMA INT
+    (47) set_obstacle -> ADD ID . AT LP INT COMMA INT RP
+
+    AT              shift and go to state 59
+
+
+state 45
+
+    (50) edit_id -> EDIT ID .
+
+    $end            reduce using rule 50 (edit_id -> EDIT ID .)
+
+
+state 46
+
+    (54) replace_index -> REPLACE INT . MOVE UP
+    (55) replace_index -> REPLACE INT . MOVE DOWN
+    (56) replace_index -> REPLACE INT . MOVE LEFT
+    (57) replace_index -> REPLACE INT . MOVE RIGHT
+    (58) replace_index -> REPLACE INT . MOVE UP INT
+    (59) replace_index -> REPLACE INT . MOVE DOWN INT
+    (60) replace_index -> REPLACE INT . MOVE LEFT INT
+    (61) replace_index -> REPLACE INT . MOVE RIGHT INT
+    (62) replace_index -> REPLACE INT . MOVE UP LP INT RP
+    (63) replace_index -> REPLACE INT . MOVE DOWN LP INT RP
+    (64) replace_index -> REPLACE INT . MOVE LEFT LP INT RP
+    (65) replace_index -> REPLACE INT . MOVE RIGHT LP INT RP
+
+    MOVE            shift and go to state 60
+
+
+state 47
+
+    (53) replace_index -> REPLACE ID . ID
+
+    ID              shift and go to state 61
+
+
+state 48
+
+    (44) switch_map -> SWITCH TO . ID
+
+    ID              shift and go to state 62
+
+
+state 49
+
+    (40) go_right -> MOVE RIGHT .
+    (41) go_right -> MOVE RIGHT . INT
+    (42) go_right -> MOVE RIGHT . LP INT RP
+
+    $end            reduce using rule 40 (go_right -> MOVE RIGHT .)
+    INT             shift and go to state 63
+    LP              shift and go to state 64
+
+
+state 50
+
+    (22) go_up -> MOVE UP .
+    (23) go_up -> MOVE UP . INT
+    (24) go_up -> MOVE UP . LP INT RP
+
+    $end            reduce using rule 22 (go_up -> MOVE UP .)
+    INT             shift and go to state 65
+    LP              shift and go to state 66
+
+
+state 51
+
+    (30) go_down -> MOVE DOWN .
+    (31) go_down -> MOVE DOWN . INT
+    (32) go_down -> MOVE DOWN . LP INT RP
+
+    $end            reduce using rule 30 (go_down -> MOVE DOWN .)
+    INT             shift and go to state 67
+    LP              shift and go to state 68
+
+
+state 52
+
+    (34) go_left -> MOVE LEFT .
+    (35) go_left -> MOVE LEFT . INT
+    (36) go_left -> MOVE LEFT . LP INT RP
+
+    $end            reduce using rule 34 (go_left -> MOVE LEFT .)
+    INT             shift and go to state 70
+    LP              shift and go to state 69
+
+
+state 53
+
+    (52) remove -> REMOVE INT .
+
+    $end            reduce using rule 52 (remove -> REMOVE INT .)
+
+
+state 54
+
+    (48) map_assign -> CREATE MAP NAMED . ID
+
+    ID              shift and go to state 71
+
+
+state 55
+
+    (49) solution_assign -> CREATE SOLUTION NAMED . ID
+
+    ID              shift and go to state 72
+
+
+state 56
+
+    (27) set_traverse -> SET TRAVERSE TO . INT INT
+    (28) set_traverse -> SET TRAVERSE TO . INT COMMA INT
+    (29) set_traverse -> SET TRAVERSE TO . LP INT COMMA INT RP
+
+    INT             shift and go to state 73
+    LP              shift and go to state 74
+
+
+state 57
+
+    (43) start_map -> SET START AT . INT
+
+    INT             shift and go to state 75
+
+
+state 58
+
+    (25) end_map -> SET END AT . INT
+
+    INT             shift and go to state 76
+
+
+state 59
+
+    (45) set_obstacle -> ADD ID AT . INT INT
+    (46) set_obstacle -> ADD ID AT . INT COMMA INT
+    (47) set_obstacle -> ADD ID AT . LP INT COMMA INT RP
+
+    INT             shift and go to state 77
+    LP              shift and go to state 78
+
+
+state 60
+
+    (54) replace_index -> REPLACE INT MOVE . UP
+    (55) replace_index -> REPLACE INT MOVE . DOWN
+    (56) replace_index -> REPLACE INT MOVE . LEFT
+    (57) replace_index -> REPLACE INT MOVE . RIGHT
+    (58) replace_index -> REPLACE INT MOVE . UP INT
+    (59) replace_index -> REPLACE INT MOVE . DOWN INT
+    (60) replace_index -> REPLACE INT MOVE . LEFT INT
+    (61) replace_index -> REPLACE INT MOVE . RIGHT INT
+    (62) replace_index -> REPLACE INT MOVE . UP LP INT RP
+    (63) replace_index -> REPLACE INT MOVE . DOWN LP INT RP
+    (64) replace_index -> REPLACE INT MOVE . LEFT LP INT RP
+    (65) replace_index -> REPLACE INT MOVE . RIGHT LP INT RP
+
+    UP              shift and go to state 80
+    DOWN            shift and go to state 82
+    LEFT            shift and go to state 81
+    RIGHT           shift and go to state 79
+
+
+state 61
+
+    (53) replace_index -> REPLACE ID ID .
+
+    $end            reduce using rule 53 (replace_index -> REPLACE ID ID .)
+
+
+state 62
+
+    (44) switch_map -> SWITCH TO ID .
+
+    $end            reduce using rule 44 (switch_map -> SWITCH TO ID .)
+
+
+state 63
+
+    (41) go_right -> MOVE RIGHT INT .
+
+    $end            reduce using rule 41 (go_right -> MOVE RIGHT INT .)
+
+
+state 64
+
+    (42) go_right -> MOVE RIGHT LP . INT RP
+
+    INT             shift and go to state 83
+
+
+state 65
+
+    (23) go_up -> MOVE UP INT .
+
+    $end            reduce using rule 23 (go_up -> MOVE UP INT .)
+
+
+state 66
+
+    (24) go_up -> MOVE UP LP . INT RP
+
+    INT             shift and go to state 84
+
+
+state 67
+
+    (31) go_down -> MOVE DOWN INT .
+
+    $end            reduce using rule 31 (go_down -> MOVE DOWN INT .)
+
+
+state 68
+
+    (32) go_down -> MOVE DOWN LP . INT RP
+
+    INT             shift and go to state 85
+
+
+state 69
+
+    (36) go_left -> MOVE LEFT LP . INT RP
+
+    INT             shift and go to state 86
+
+
+state 70
+
+    (35) go_left -> MOVE LEFT INT .
+
+    $end            reduce using rule 35 (go_left -> MOVE LEFT INT .)
+
+
+state 71
+
+    (48) map_assign -> CREATE MAP NAMED ID .
+
+    $end            reduce using rule 48 (map_assign -> CREATE MAP NAMED ID .)
+
+
+state 72
+
+    (49) solution_assign -> CREATE SOLUTION NAMED ID .
+
+    $end            reduce using rule 49 (solution_assign -> CREATE SOLUTION NAMED ID .)
+
+
+state 73
+
+    (27) set_traverse -> SET TRAVERSE TO INT . INT
+    (28) set_traverse -> SET TRAVERSE TO INT . COMMA INT
+
+    INT             shift and go to state 87
+    COMMA           shift and go to state 88
+
+
+state 74
+
+    (29) set_traverse -> SET TRAVERSE TO LP . INT COMMA INT RP
+
+    INT             shift and go to state 89
+
+
+state 75
+
+    (43) start_map -> SET START AT INT .
+
+    $end            reduce using rule 43 (start_map -> SET START AT INT .)
+
+
+state 76
+
+    (25) end_map -> SET END AT INT .
+
+    $end            reduce using rule 25 (end_map -> SET END AT INT .)
+
+
+state 77
+
+    (45) set_obstacle -> ADD ID AT INT . INT
+    (46) set_obstacle -> ADD ID AT INT . COMMA INT
+
+    INT             shift and go to state 91
+    COMMA           shift and go to state 90
+
+
+state 78
+
+    (47) set_obstacle -> ADD ID AT LP . INT COMMA INT RP
+
+    INT             shift and go to state 92
+
+
+state 79
+
+    (57) replace_index -> REPLACE INT MOVE RIGHT .
+    (61) replace_index -> REPLACE INT MOVE RIGHT . INT
+    (65) replace_index -> REPLACE INT MOVE RIGHT . LP INT RP
+
+    $end            reduce using rule 57 (replace_index -> REPLACE INT MOVE RIGHT .)
+    INT             shift and go to state 93
+    LP              shift and go to state 94
+
+
+state 80
+
+    (54) replace_index -> REPLACE INT MOVE UP .
+    (58) replace_index -> REPLACE INT MOVE UP . INT
+    (62) replace_index -> REPLACE INT MOVE UP . LP INT RP
+
+    $end            reduce using rule 54 (replace_index -> REPLACE INT MOVE UP .)
+    INT             shift and go to state 95
+    LP              shift and go to state 96
+
+
+state 81
+
+    (56) replace_index -> REPLACE INT MOVE LEFT .
+    (60) replace_index -> REPLACE INT MOVE LEFT . INT
+    (64) replace_index -> REPLACE INT MOVE LEFT . LP INT RP
+
+    $end            reduce using rule 56 (replace_index -> REPLACE INT MOVE LEFT .)
+    INT             shift and go to state 97
+    LP              shift and go to state 98
+
+
+state 82
+
+    (55) replace_index -> REPLACE INT MOVE DOWN .
+    (59) replace_index -> REPLACE INT MOVE DOWN . INT
+    (63) replace_index -> REPLACE INT MOVE DOWN . LP INT RP
+
+    $end            reduce using rule 55 (replace_index -> REPLACE INT MOVE DOWN .)
+    INT             shift and go to state 99
+    LP              shift and go to state 100
+
+
+state 83
+
+    (42) go_right -> MOVE RIGHT LP INT . RP
+
+    RP              shift and go to state 101
+
+
+state 84
+
+    (24) go_up -> MOVE UP LP INT . RP
+
+    RP              shift and go to state 102
+
+
+state 85
+
+    (32) go_down -> MOVE DOWN LP INT . RP
+
+    RP              shift and go to state 103
+
+
+state 86
+
+    (36) go_left -> MOVE LEFT LP INT . RP
+
+    RP              shift and go to state 104
+
+
+state 87
+
+    (27) set_traverse -> SET TRAVERSE TO INT INT .
+
+    $end            reduce using rule 27 (set_traverse -> SET TRAVERSE TO INT INT .)
+
+
+state 88
+
+    (28) set_traverse -> SET TRAVERSE TO INT COMMA . INT
+
+    INT             shift and go to state 105
+
+
+state 89
+
+    (29) set_traverse -> SET TRAVERSE TO LP INT . COMMA INT RP
+
+    COMMA           shift and go to state 106
+
+
+state 90
+
+    (46) set_obstacle -> ADD ID AT INT COMMA . INT
+
+    INT             shift and go to state 107
+
+
+state 91
+
+    (45) set_obstacle -> ADD ID AT INT INT .
+
+    $end            reduce using rule 45 (set_obstacle -> ADD ID AT INT INT .)
+
+
+state 92
+
+    (47) set_obstacle -> ADD ID AT LP INT . COMMA INT RP
+
+    COMMA           shift and go to state 108
+
+
+state 93
+
+    (61) replace_index -> REPLACE INT MOVE RIGHT INT .
+
+    $end            reduce using rule 61 (replace_index -> REPLACE INT MOVE RIGHT INT .)
+
+
+state 94
+
+    (65) replace_index -> REPLACE INT MOVE RIGHT LP . INT RP
+
+    INT             shift and go to state 109
+
+
+state 95
+
+    (58) replace_index -> REPLACE INT MOVE UP INT .
+
+    $end            reduce using rule 58 (replace_index -> REPLACE INT MOVE UP INT .)
+
+
+state 96
+
+    (62) replace_index -> REPLACE INT MOVE UP LP . INT RP
+
+    INT             shift and go to state 110
+
+
+state 97
+
+    (60) replace_index -> REPLACE INT MOVE LEFT INT .
+
+    $end            reduce using rule 60 (replace_index -> REPLACE INT MOVE LEFT INT .)
+
+
+state 98
+
+    (64) replace_index -> REPLACE INT MOVE LEFT LP . INT RP
+
+    INT             shift and go to state 111
+
+
+state 99
+
+    (59) replace_index -> REPLACE INT MOVE DOWN INT .
+
+    $end            reduce using rule 59 (replace_index -> REPLACE INT MOVE DOWN INT .)
+
+
+state 100
+
+    (63) replace_index -> REPLACE INT MOVE DOWN LP . INT RP
+
+    INT             shift and go to state 112
+
+
+state 101
+
+    (42) go_right -> MOVE RIGHT LP INT RP .
+
+    $end            reduce using rule 42 (go_right -> MOVE RIGHT LP INT RP .)
+
+
+state 102
+
+    (24) go_up -> MOVE UP LP INT RP .
+
+    $end            reduce using rule 24 (go_up -> MOVE UP LP INT RP .)
+
+
+state 103
+
+    (32) go_down -> MOVE DOWN LP INT RP .
+
+    $end            reduce using rule 32 (go_down -> MOVE DOWN LP INT RP .)
+
+
+state 104
+
+    (36) go_left -> MOVE LEFT LP INT RP .
+
+    $end            reduce using rule 36 (go_left -> MOVE LEFT LP INT RP .)
+
+
+state 105
+
+    (28) set_traverse -> SET TRAVERSE TO INT COMMA INT .
+
+    $end            reduce using rule 28 (set_traverse -> SET TRAVERSE TO INT COMMA INT .)
+
+
+state 106
+
+    (29) set_traverse -> SET TRAVERSE TO LP INT COMMA . INT RP
+
+    INT             shift and go to state 113
+
+
+state 107
+
+    (46) set_obstacle -> ADD ID AT INT COMMA INT .
+
+    $end            reduce using rule 46 (set_obstacle -> ADD ID AT INT COMMA INT .)
+
+
+state 108
+
+    (47) set_obstacle -> ADD ID AT LP INT COMMA . INT RP
+
+    INT             shift and go to state 114
+
+
+state 109
+
+    (65) replace_index -> REPLACE INT MOVE RIGHT LP INT . RP
+
+    RP              shift and go to state 115
+
+
+state 110
+
+    (62) replace_index -> REPLACE INT MOVE UP LP INT . RP
+
+    RP              shift and go to state 116
+
+
+state 111
+
+    (64) replace_index -> REPLACE INT MOVE LEFT LP INT . RP
+
+    RP              shift and go to state 117
+
+
+state 112
+
+    (63) replace_index -> REPLACE INT MOVE DOWN LP INT . RP
+
+    RP              shift and go to state 118
+
+
+state 113
+
+    (29) set_traverse -> SET TRAVERSE TO LP INT COMMA INT . RP
+
+    RP              shift and go to state 119
+
+
+state 114
+
+    (47) set_obstacle -> ADD ID AT LP INT COMMA INT . RP
+
+    RP              shift and go to state 120
+
+
+state 115
+
+    (65) replace_index -> REPLACE INT MOVE RIGHT LP INT RP .
+
+    $end            reduce using rule 65 (replace_index -> REPLACE INT MOVE RIGHT LP INT RP .)
+
+
+state 116
+
+    (62) replace_index -> REPLACE INT MOVE UP LP INT RP .
+
+    $end            reduce using rule 62 (replace_index -> REPLACE INT MOVE UP LP INT RP .)
+
+
+state 117
+
+    (64) replace_index -> REPLACE INT MOVE LEFT LP INT RP .
+
+    $end            reduce using rule 64 (replace_index -> REPLACE INT MOVE LEFT LP INT RP .)
+
+
+state 118
+
+    (63) replace_index -> REPLACE INT MOVE DOWN LP INT RP .
+
+    $end            reduce using rule 63 (replace_index -> REPLACE INT MOVE DOWN LP INT RP .)
+
+
+state 119
+
+    (29) set_traverse -> SET TRAVERSE TO LP INT COMMA INT RP .
+
+    $end            reduce using rule 29 (set_traverse -> SET TRAVERSE TO LP INT COMMA INT RP .)
+
+
+state 120
+
+    (47) set_obstacle -> ADD ID AT LP INT COMMA INT RP .
+
+    $end            reduce using rule 47 (set_obstacle -> ADD ID AT LP INT COMMA INT RP .)
+
+WARNING: 
+WARNING: Conflicts:
+WARNING: 
+WARNING: reduce/reduce conflict in state 38 resolved using rule (build_map -> BUILD ID)
+WARNING: rejected rule (build_solution -> BUILD ID) in state 38
+WARNING: Rule (build_solution -> BUILD ID) is never reduced
