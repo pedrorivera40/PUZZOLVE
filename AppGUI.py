@@ -10,6 +10,8 @@ class Player:
         self.speed = 5
         self.current_x = current_x
         self.current_y = current_y
+        self.init_x = current_x
+        self.init_y = current_y
         self.w = 70
         # Current X and Y with respect to the screen
         self.x = self.w * self.current_x
@@ -275,26 +277,39 @@ class App:
         pygame.event.pump()
         move = command_tuple[0]
         amount = command_tuple[1]
+        print(self.player.x, self.player.y, self.player.current_x, self.player.current_y, self.player.init_x, self.player.init_y)
 
         if (move == 'RIGHT'):
+            if(self.player.current_x + amount > 9):
+                print("Oops! Invalid move. Player out of bounds.")
+                return
             for i in range (0, amount):
                 self.switch_image("RIGHT", self.counter)
                 self.counter = (self.counter + 1) % len(self.images_dict['RIGHT'])
                 self.player.moveRight()
 
         if (move == 'LEFT'):
+            if(self.player.current_x + amount < 0):
+                print("Oops! Invalid move. Player out of bounds.")
+                return
             for i in range(0, amount):
                 self.switch_image("LEFT", self.counter)
                 self.counter = (self.counter + 1) % len(self.images_dict['LEFT'])
                 self.player.moveLeft()
 
         if (move == 'UP'):
+            if(self.player.current_y + amount < 0):
+                print("Oops! Invalid move. Player out of bounds.")
+                return
             for i in range(0, amount):
                 self.switch_image("UP", self.counter)
                 self.counter = (self.counter + 1) % len(self.images_dict['UP'])
                 self.player.moveUp()
 
         if (move == 'DOWN'):
+            if(self.player.current_y + amount > 7):
+                print("Oops! Invalid move. Player out of bounds.")
+                return
             for i in range(0, amount):
                 self.switch_image("DOWN", self.counter)
                 self.counter = (self.counter + 1) % len(self.images_dict['DOWN'])
@@ -304,6 +319,7 @@ class App:
         self.clock.tick(15)
 
     def run_solution(self, moves):
+        self.move_to_start()
         for move in moves:
             self.operate(move)
             sleep(self.def_delay)
@@ -314,6 +330,7 @@ class App:
 
     def set_start(self, x, y):
         (self.player.current_x, self.player.current_y) = (x, y)
+        (self.player.init_x, self.player.init_y) = (x, y)
         (self.player.x, self.player.y) = (self.player.current_x * self.player.w, self.player.current_y * self.player.w)
         self.on_render()
 
@@ -329,8 +346,12 @@ class App:
         self.on_render()
 
     def move_to_start(self):
-        (self.player.current_x, self.player.current_y) = (self.player.x*self.player.w, self.player.y*self.player.w)
+        (self.player.current_x, self.player.current_y) = (self.player.init_x, self.player.init_y)
+        (self.player.x, self.player.y) = (self.player.current_x * self.player.w, self.player.current_y * self.player.w)
         self.on_render()
+
+    def validate_xy(self, x, y):
+        return x in range (0, 10) and y in range (0, 8)
 
 
 if __name__ == "__main__":

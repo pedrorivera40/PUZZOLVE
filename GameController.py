@@ -12,10 +12,14 @@ class Controller():
         self.app.operate(steps)
 
     def setStart(self, x, y):
-        self.app.set_start(x, y)
+        if(self.app.validate_xy(x, y)):
+            self.app.set_start(x, y)
+        else: print("Oops! Starting point is out of range.")
 
-    def setEnd(self, x,y):
-        self.app.set_end(x,y)
+    # def setEnd(self, x,y):
+        # if(self.app.validate_xy(x, y)):
+        #     self.app.set_end(x,y)
+        # else: print("Oops! Ending point is out of range.")
 
     #  will nort be implemented
     # def setTraverse(self, startX, startY, endX, endY):
@@ -36,7 +40,9 @@ class Controller():
         self.app.operate(moves)
 
     def set_end(self, x,y):
-        self.app.set_end(x, y)
+        if(self.app.validate_xy(x, y)):
+            self.app.set_end(x,y)
+        else: print("Oops! Ending point is out of range.")
 
     def move_left(self, moves):
         self.app.operate(moves)
@@ -49,4 +55,5 @@ class Controller():
 
     def move_to_start(self):
         self.app.move_to_start()
-    
+
+
