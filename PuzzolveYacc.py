@@ -2,13 +2,15 @@ import ply.yacc as yacc
 from PuzzolveLex import tokens
 from GameController import Controller
 import sys
+from Grid import Grid
 global environment
 
 c = Controller()
 environment = {}
-current_map = None
-built_map = True # BOOLEAN... building map
-built_sol = False # BOOLEAN... building solution
+current_map = Grid.Grid("land") # NONE
+current_solution = 'la' # NONE
+built_map = None # BOOLEAN... building map
+built_sol = None # BOOLEAN... building solution
 execution = True
 
 def p_eval(p): # May add more functions...
@@ -47,7 +49,9 @@ def p_go_up(p):
                 p[0] = ('UP', p[3])
             except:
                 p[0] = ('UP', 1)
-        c.move_up(p[0])
+        if(current_map.add_move(current_solution, p[0])):
+            c.move_up(p[0])
+        else : print("Oops! Solution does not exist.")
     else: print("Oops! Up can only be invoked while creating a solution.")
 
 def p_end_map(p):
@@ -64,6 +68,11 @@ def p_run_solution(p):
     run_solution : RUN ID
     '''
     p[0] = ('RUN', p[2])
+    if (built_map and built_sol and (current_map != None)):
+        if(p[0][1] in current_map.solutions):
+            c.run_solution(current_map.solutions[p[0][1]])
+        else: print("Oops! Solution " + p[0][1] + " does not exist on the current map.")
+    else: print("Oops! Invalid state for running solutions.")
 
 def p_set_traverse(p): # dont really thing we need el traverse
     '''
@@ -84,17 +93,14 @@ def p_go_down(p):
     if built_map and (built_sol== False):
         try:
             p[0] = ('DOWN', p[4])
-            c.moveDown(p[0])
-            print("right ",p[4]) #Print statements for testing purposes
         except:
             try:
                 p[0] = ('DOWN', p[3])
-                c.moveDown(p[0])
-                print("right ",p[3])
             except:
                 p[0] = ('DOWN', 1)
-                c.moveDown(p[0])
-                print("right ",1)
+        if (current_map.add_move(current_solution, p[0])):
+            c.moveDown(p[0])
+            print(current_map.solutions[current_solution])
     else: print('Oops! "MOVE DOWN" can only be invoked while creating a solution.')
 
 def p_exit_game(p): # NOTE THE RETURN...
@@ -104,7 +110,6 @@ def p_exit_game(p): # NOTE THE RETURN...
     p[0] = p[1]
     if(p[1] == 'exit') :
         print("See you later!")
-        c.exit()
         sys.exit()
     print("exit...")
 
@@ -124,7 +129,9 @@ def p_go_left(p): # TODO -> Make sure that the run method accepts the same secon
                 p[0] = ('LEFT', p[3])
             except:
                 p[0] = ('LEFT', 1)
-        c.move_left(p[0])
+        if (current_map.add_move(current_solution, p[0])):
+            c.move_left(p[0])
+            print(current_map.solutions[current_solution])
     else: print("Oops! Left can only be invoked while creating a solution.")
 
 def p_undo_move(p): # NOTE THE RETURN...
@@ -143,19 +150,21 @@ def p_build_map(p): # MUST TAKE CARE... Build Map & Build Solution are the same.
     global built_map
     if (built_map == False) and ( built_sol == None):
         p[0] = ('BUILD', p[3])
-        c.buildMap(p[3])
         built_map = True
     else: print('Oops! "BUILD MAP" can only be invoked while creating a map.')
     
 
-def p_build_solution(p): # needed???
+def p_build_solution(p):
     '''
     build_solution : BUILD SOLUTION ID
     '''
+    global  current_solution, built_sol, built_map
     p[0] = ('BUILD', p[2])
     if(built_map and built_sol == False):
         if(p[0][1] not in current_map.solutions):
-            c.add_solution(current_map, p[0][1])
+            current_solution = None
+            built_sol = True
+            c.move_to_start()
         else: print("Oops! Solution " + p[0][1] + " already exists in " + current_map.place()) # verify..
     else: print("Oops! Solutions can be built while in solution creation mode.")
         
@@ -169,17 +178,14 @@ def p_go_right(p):
     if built_map and (built_sol== False):
         try:
             p[0] = ('RIGHT', p[4])
-            c.moveRight(p[0])
-            print("right ",p[4]) # Print statements for testing purposes
         except:
             try:
                 p[0] = ('RIGHT', p[3])
-                c.moveRight(p[0])
-                print("right ",p[3])
             except:
                 p[0] = ('RIGHT', 1)
-                c.moveRight(p[0])
-                print("right ",1)
+        if (current_map.add_move(current_solution, p[0])):
+            c.moveRight(p[0])
+            print(current_map.solutions[current_solution])
     else: print('Oops! "MOVE RIGHT" can only be invoked while creating a solution.')
     
 
@@ -229,8 +235,12 @@ def p_map_assign(p):
     map_assign : CREATE MAP NAMED ID
     '''
     p[0] = ('MAP', p[4])
-    if not ((built_map and built_sol == False) or (built_sol == None and built_map == False)): # NO>>>
+    global built_map
+    global built_sol
+    if not ((built_map and built_sol == False) or (built_sol == None and built_map == False)): # TODO -> VERIFY Boolean Predicate...
         c.create_map(p[0][1])
+        built_map = False
+        built_sol = None
         print("Creating " + p[0][1] + ".")
     else: print("Oops! Map can only be created while not in creation mode.")
 
@@ -241,9 +251,10 @@ def p_solution_assign(p):
     '''
     global built_sol
     if (built_map == True) and (built_sol==None):
-        p[0] = ('SOLUTION', p[4])
-        built_sol = False
-        c.createSolution(p[4])
+        b = current_map.add_solution(p[4])
+        print(p[4])
+        if b : built_sol = False
+        else : print("Oops! Solution " + p[4] + " already exists.")
     else: print('Oops! "CREATE SOLUTION" can only be invoked after a map is built.')
 
 

@@ -27,7 +27,7 @@ class Player:
         return (top or bottom or right or left)
 
     def moveRight(self):
-        print(self.current_x, self.current_y, self.maze_matrix[self.current_y, self.current_x - 1])
+        #print(self.current_x, self.current_y, self.maze_matrix[self.current_y, self.current_x - 1])
         if(self.is_solution()):
             print("Solved")
             return "SOLVED"
@@ -90,14 +90,14 @@ class Grid:
     def __init__(self):
         self.M = 10  # Columns
         self.N = 8  # Rows
-        self.maze = [0, 0, 1, 1, 1, 1, 1, 1, 1, 1,
-                     0, 0, 0, 0, 0, 0, 0, 0, 2, 1,
-                     1, 0, 0, 0, 0, 0, 0, 0, 0, 1,
-                     1, 0, 1, 1, 1, 1, 1, 1, 0, 1,
-                     1, 0, 1, 0, 0, 0, 0, 0, 0, 1,
-                     1, 0, 1, 0, 1, 1, 1, 1, 0, 1,
-                     1, 0, 0, 0, 0, 0, 0, 0, 0, 1,
-                     1, 1, 1, 1, 1, 1, 1, 1, 1, 1, ]
+        self.maze = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+                     0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+                     0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+                     0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+                     0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+                     0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+                     0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+                     0, 0, 0, 0, 0, 0, 0, 0, 0, 0, ]
         # self.maze = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
         #              0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
         #              0, 0, 0, 1, 0, 0, 0, 0, 0, 0,
@@ -126,8 +126,8 @@ class Grid:
 
 class App:
 
-    windowWidth = 800
-    windowHeight = 600
+    windowWidth = 700
+    windowHeight = 560
     player = 0
     clock = pygame.time.Clock()
 
@@ -137,8 +137,8 @@ class App:
         self._image_surf = None
         self._block_surf = None
         self.grid = Grid()
-        self.player = Player(0, 0, self.grid.maze_matrix)
-        self.solution = Player(8, 1, self.grid.maze_matrix)
+        self.player = Player(-2, -2, self.grid.maze_matrix) #neg values so the player starts off screen
+        self.solution = Player(-3, 3, self.grid.maze_matrix) #neg values so the goal starts off screen
         self.Background = None
         self.images_dict = {
             'RIGHT': [],
@@ -148,6 +148,24 @@ class App:
         }
         self.counter = 0
         self.def_delay = 1.5
+
+    # def __init__(self):
+    #     self._running = True
+    #     self._display_surf = None
+    #     self._image_surf = None
+    #     self._block_surf = None
+    #     self.grid = Grid()
+    #     self.player = None
+    #     self.solution = None # Goal!!!
+    #     self.Background = None
+    #     self.images_dict = {
+    #         'RIGHT': [],
+    #         'LEFT': [],
+    #         'UP': [],
+    #         'DOWN': []
+    #     }
+    #     self.counter = 0
+    #     self.def_delay = 1.5
 
 
     def on_init(self):
@@ -290,6 +308,30 @@ class App:
             self.operate(move)
             sleep(self.def_delay)
 
+    def add_object(self, x, y):
+        self.grid.maze_matrix[x, y] = 1
+        self.on_render()
+
+    def set_start(self, x, y):
+        (self.player.current_x, self.player.current_y) = (x, y)
+        (self.player.x, self.player.y) = (self.player.current_x * self.player.w, self.player.current_y * self.player.w)
+        self.on_render()
+
+    def set_end(self, x, y):
+        (self.solution.current_x, self.solution.current_y) = (x, y)
+        (self.solution.x, self.solution.y) = (self.solution.current_x * self.solution.w, self.solution.current_y * self.solution.w)
+        self.grid.maze_matrix[x, y] = 2
+        self.on_render()
+
+    def create_map(self, name):
+        pygame.display.set_caption('PUZZOLVE-',name)
+        self.grid.maze_matrix = self.grid.maze
+        self.on_render()
+
+    def move_to_start(self):
+        (self.player.current_x, self.player.current_y) = (self.player.x*self.player.w, self.player.y*self.player.w)
+        self.on_render()
+
 
 if __name__ == "__main__":
     theApp = App()
@@ -303,13 +345,19 @@ if __name__ == "__main__":
     # sleep(3)
     # theApp.operate(('LEFT', 2))
     # sleep(3)
-    moves = [
-        ('DOWN', 1),
-        ('RIGHT', 1),
-        ('DOWN', 6),
-        ('RIGHT', 8),
-        ('UP', 5)
-    ]
-    theApp.run_solution(moves)
+    # moves = [
+    #     ('DOWN', 1),
+    #     ('RIGHT', 1),
+    #     ('DOWN', 6),
+    #     ('RIGHT', 8),
+    #     ('UP', 5)
+    # ]
+    # theApp.run_solution(moves)
+    sleep(5)
+    # theApp.grid.maze_matrix[2, 3] = 1
+    # theApp.on_render()
+    theApp.set_start(1, 1)
+    sleep(5)
+    theApp.set_end(2, 1)
     sleep(5)
     #theApp.on_execute()

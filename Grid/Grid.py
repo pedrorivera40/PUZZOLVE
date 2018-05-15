@@ -5,7 +5,19 @@ class Grid: # city...
         self.place = place
         self.objects = {}
         self.person = None
-        self.solutions = []
+        self.solutions = {}
+
+    def add_solution(self, key):
+        if(key not in self.solutions):
+            self.solutions[key] = []
+            return True
+        else: return False
+
+    def add_move(self, key, move):
+        if(key in self.solutions):
+            self.solutions[key].append(move)
+            return True
+        else: return False
 
     def open_grid(self): # pygame...
         pass
