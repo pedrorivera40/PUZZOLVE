@@ -1,6 +1,7 @@
 from pygame.locals import *
 import pygame
 import numpy as np
+from time import sleep
 
 
 class Player:
@@ -146,6 +147,8 @@ class App:
             'DOWN': []
         }
         self.counter = 0
+        self.def_delay = 1.5
+
 
     def on_init(self):
         pygame.init()
@@ -242,7 +245,71 @@ class App:
             self.clock.tick(15)
         self.on_cleanup()
 
+    def init_display(self):
+        if self.on_init() == False:
+            self._running = False
+        pygame.event.pump()
+        self.on_loop()
+        self.on_render()
+        self.clock.tick(15)
+
+    def operate(self, command_tuple): # performs a move...
+        pygame.event.pump()
+        move = command_tuple[0]
+        amount = command_tuple[1]
+
+        if (move == 'RIGHT'):
+            for i in range (0, amount):
+                self.switch_image("RIGHT", self.counter)
+                self.counter = (self.counter + 1) % len(self.images_dict['RIGHT'])
+                self.player.moveRight()
+
+        if (move == 'LEFT'):
+            for i in range(0, amount):
+                self.switch_image("LEFT", self.counter)
+                self.counter = (self.counter + 1) % len(self.images_dict['LEFT'])
+                self.player.moveLeft()
+
+        if (move == 'UP'):
+            for i in range(0, amount):
+                self.switch_image("UP", self.counter)
+                self.counter = (self.counter + 1) % len(self.images_dict['UP'])
+                self.player.moveUp()
+
+        if (move == 'DOWN'):
+            for i in range(0, amount):
+                self.switch_image("DOWN", self.counter)
+                self.counter = (self.counter + 1) % len(self.images_dict['DOWN'])
+                self.player.moveDown()
+        self.on_loop()
+        self.on_render()
+        self.clock.tick(15)
+
+    def run_solution(self, moves):
+        for move in moves:
+            self.operate(move)
+            sleep(self.def_delay)
+
 
 if __name__ == "__main__":
     theApp = App()
-    theApp.on_execute()
+    theApp.init_display()
+    # sleep(3)
+    # theApp.operate(('RIGHT', 2))
+    # sleep(3)
+    # theApp.operate(('DOWN', 2))
+    # sleep(3)
+    # theApp.operate(('UP', 2))
+    # sleep(3)
+    # theApp.operate(('LEFT', 2))
+    # sleep(3)
+    moves = [
+        ('DOWN', 1),
+        ('RIGHT', 1),
+        ('DOWN', 6),
+        ('RIGHT', 8),
+        ('UP', 5)
+    ]
+    theApp.run_solution(moves)
+    sleep(5)
+    #theApp.on_execute()
