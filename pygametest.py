@@ -13,15 +13,16 @@ def createScreen(dimmensions):
 
     screen.fill((34,139,34))
 
+
     for row in grid:
         for column in row:
             pygame.draw.rect(screen,(0,0,0),(x,y, w,w),1)
+
             screen.blit(treeImg,(-130,-130))
+
             x = x+ w
         y = y + w
         x = 0
-
-
 
     pygame.display.flip()
 
@@ -31,4 +32,6 @@ def createScreen(dimmensions):
             if event.type == pygame.QUIT:
                 running = False 
 
+
 createScreen(8)
+
