@@ -7,8 +7,8 @@ global environment
 c = Controller()
 environment = {}
 current_map = None
-built_map = None # BOOLEAN... building map
-built_sol = None # BOOLEAN... building solution
+built_map = True # BOOLEAN... building map
+built_sol = False # BOOLEAN... building solution
 execution = True
 
 def p_eval(p): # May add more functions...
@@ -29,10 +29,6 @@ def p_eval(p): # May add more functions...
          | set_obstacle
          | map_assign
          | solution_assign
-         | edit_id
-         | get_id
-         | remove
-         | replace_index
          | empty
     '''
     print(p[0])
@@ -43,19 +39,25 @@ def p_go_up(p):
             | MOVE UP INT
             | MOVE UP LP INT RP
     '''
-    try:
-        p[0] = ('UP', p[4])
-    except:
+    if(built_map  and built_sol == False):
         try:
-            p[0] = ('UP', p[3])
+            p[0] = ('UP', p[4])
         except:
-            p[0] = ('UP', 1)
+            try:
+                p[0] = ('UP', p[3])
+            except:
+                p[0] = ('UP', 1)
+        c.move_up(p[0][1])
+    else: print("Oops! Up can only be invoked while creating a solution.")
 
 def p_end_map(p):
     '''
-    end_map : SET END AT INT
+    end_map : SET END AT INT INT
     '''
-    p[0] = ('END', p[4])
+    p[0] = ('END', p[4], p[5])
+    if(built_map == False and built_sol == None):
+        c.set_end(p[4], p[5])
+    else: print("Oops! End can only be invoked while creating a map.")
 
 def p_run_solution(p):
     '''
@@ -99,12 +101,12 @@ def p_exit_game(p): # NOTE THE RETURN...
     '''
     exit_game : EXIT
     '''
-    # print(p[2])
-    # print(p[1])
-    if(p[1]) :
+    p[0] = p[1]
+    if(p[1] == 'exit') :
         print("See you later!")
-        #c.exit()
+        c.exit()
         sys.exit()
+    print("exit...")
 
 
 
@@ -114,13 +116,16 @@ def p_go_left(p): # TODO -> Make sure that the run method accepts the same secon
             | MOVE LEFT INT
             | MOVE LEFT LP INT RP
     '''
-    try:
-        p[0] = ('LEFT', p[4])
-    except:
+    if(built_map  and built_sol == False):
         try:
-            p[0] = ('LEFT', p[3])
+            p[0] = ('LEFT', p[4])
         except:
-            p[0] = ('LEFT', 1)
+            try:
+                p[0] = ('LEFT', p[3])
+            except:
+                p[0] = ('LEFT', 1)
+        c.move_left(p[0][1])
+    else: print("Oops! Left can only be invoked while creating a solution.")
 
 def p_undo_move(p): # NOTE THE RETURN...
     '''
@@ -147,8 +152,12 @@ def p_build_solution(p): # needed???
     '''
     build_solution : BUILD SOLUTION ID
     '''
-    if built_map and (built_sol == False):
-        p[0] = ('BUILD', p[3])
+    p[0] = ('BUILD', p[2])
+    if(built_map and built_sol == False):
+        if(p[0][1] not in current_map.solutions):
+            c.add_solution(current_map, p[0][1])
+        else: print("Oops! Solution " + p[0][1] + " already exists in " + current_map.place()) # verify..
+    else: print("Oops! Solutions can be built while in solution creation mode.")
         
 
 def p_go_right(p):
@@ -189,6 +198,13 @@ def p_switch_map(p):
     switch_map : SWITCH TO ID
     '''
     p[0] = ('SWITCH', p[3])
+    if(built_map and (built_sol != False)):
+        if(p[0][1] in environment):
+            current_map = environment[p[0][1]]
+            c.switch_map(p[0][1])
+            print("Switched to " + p[0][1] + ".")
+        else: print("Oops! " + p[0][1] + " has not been created.")
+    else: print("Oops! Switch can only be performed while not in creation mode.")
 
 def p_set_obstacle(p): # NOT FINISHED...
     '''
@@ -196,22 +212,27 @@ def p_set_obstacle(p): # NOT FINISHED...
                  | ADD ID AT INT COMMA INT
                  | ADD ID AT LP INT COMMA INT RP
     '''
-    try:
-        p[0] = ('OBSTACLE', p[2], p[5], p[7])
-    except:
+    if(built_map == False and built_sol == None):
         try:
-            p[0] = ('OBSTACLE', p[2], p[4], p[6])
+            p[0] = ('OBSTACLE', p[2], p[5], p[7])
         except:
-            p[0] = ('OBSTACLE', p[2], p[4], p[5])
+            try:
+                p[0] = ('OBSTACLE', p[2], p[4], p[6])
+            except:
+                p[0] = ('OBSTACLE', p[2], p[4], p[5])
+        c.add_obstacle(current_map, p[0][1], p[0][2], p[0][3])
+        print(p[0][1] + " added.")
+    else: print("Oops! Obstacles can only be added while creating a map.")
 
 def p_map_assign(p):
     '''
     map_assign : CREATE MAP NAMED ID
     '''
-    global built_map
     p[0] = ('MAP', p[4])
-    built_map = False
-    print("it created the map...")
+    if not ((built_map and built_sol == False) or (built_sol == None and built_map == False)): # NO>>>
+        c.create_map(p[0][1])
+        print("Creating " + p[0][1] + ".")
+    else: print("Oops! Map can only be created while not in creation mode.")
 
 
 def p_solution_assign(p):
@@ -225,51 +246,6 @@ def p_solution_assign(p):
         c.createSolution(p[4])
     else: print('Oops! "CREATE SOLUTION" can only be invoked after a map is built.')
 
-
-def p_edit_id(p):
-    '''
-    edit_id : EDIT ID
-    '''
-    p[0] = ('EDIT', p[2])
-
-def p_get_id(p):
-    '''
-    get_id : GET ID
-    '''
-    p[0] = ('GET', p[2])
-
-def p_remove(p):
-    '''
-    remove : REMOVE INT
-    '''
-    p[0] = ('REMOVE', p[2])
-
-def p_replace_index(p):
-    '''
-    replace_index : REPLACE ID ID
-                  | REPLACE INT MOVE UP
-                  | REPLACE INT MOVE DOWN
-                  | REPLACE INT MOVE LEFT
-                  | REPLACE INT MOVE RIGHT
-                  | REPLACE INT MOVE UP INT
-                  | REPLACE INT MOVE DOWN INT
-                  | REPLACE INT MOVE LEFT INT
-                  | REPLACE INT MOVE RIGHT INT
-                  | REPLACE INT MOVE UP LP INT RP
-                  | REPLACE INT MOVE DOWN LP INT RP
-                  | REPLACE INT MOVE LEFT LP INT RP
-                  | REPLACE INT MOVE RIGHT LP INT RP
-    '''
-    try:
-        p[0] = ('REPLACE', p[2], p[4], p[6])
-    except:
-        try:
-            p[0] = ('REPLACE', p[2], p[4], p[5])
-        except:
-            try:
-                p[0] = ('REPLACE', p[2], p[4], 1)
-            except:
-                p[0] = ('REPLACE', p[2], p[3])
 
 def p_empty(p):
     '''
