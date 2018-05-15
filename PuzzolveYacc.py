@@ -47,7 +47,7 @@ def p_go_up(p):
                 p[0] = ('UP', p[3])
             except:
                 p[0] = ('UP', 1)
-        c.move_up(p[0][1])
+        c.move_up(p[0])
     else: print("Oops! Up can only be invoked while creating a solution.")
 
 def p_end_map(p):
@@ -84,16 +84,16 @@ def p_go_down(p):
     if built_map and (built_sol== False):
         try:
             p[0] = ('DOWN', p[4])
-            c.moveDown(p[4])
+            c.moveDown(p[0])
             print("right ",p[4]) #Print statements for testing purposes
         except:
             try:
                 p[0] = ('DOWN', p[3])
-                c.moveDown(p[3])
+                c.moveDown(p[0])
                 print("right ",p[3])
             except:
                 p[0] = ('DOWN', 1)
-                c.moveDown(1)
+                c.moveDown(p[0])
                 print("right ",1)
     else: print('Oops! "MOVE DOWN" can only be invoked while creating a solution.')
 
@@ -124,7 +124,7 @@ def p_go_left(p): # TODO -> Make sure that the run method accepts the same secon
                 p[0] = ('LEFT', p[3])
             except:
                 p[0] = ('LEFT', 1)
-        c.move_left(p[0][1])
+        c.move_left(p[0])
     else: print("Oops! Left can only be invoked while creating a solution.")
 
 def p_undo_move(p): # NOTE THE RETURN...
@@ -169,16 +169,16 @@ def p_go_right(p):
     if built_map and (built_sol== False):
         try:
             p[0] = ('RIGHT', p[4])
-            c.moveRight(p[4])
+            c.moveRight(p[0])
             print("right ",p[4]) # Print statements for testing purposes
         except:
             try:
                 p[0] = ('RIGHT', p[3])
-                c.moveRight(p[3])
+                c.moveRight(p[0])
                 print("right ",p[3])
             except:
                 p[0] = ('RIGHT', 1)
-                c.moveRight(1)
+                c.moveRight(p[0])
                 print("right ",1)
     else: print('Oops! "MOVE RIGHT" can only be invoked while creating a solution.')
     

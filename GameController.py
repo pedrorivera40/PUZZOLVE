@@ -1,13 +1,18 @@
+import AppGUI as g
+
 class Controller():
+    def __init__(self):
+        self.app = g.App()
+        self.app.init_display()
 
     def exit(self):
         pass
     
     def moveDown(self,steps):
-        pass
+        self.app.operate(steps)
 
     def moveRight(self, steps):
-        pass
+        self.app.operate(steps)
 
     def setStart(self, x, y):
         pass
@@ -32,13 +37,14 @@ class Controller():
         pass
 
     def move_up(self, moves):
-        pass
+        self.app.operate(moves)
 
     def set_end(self, x,y):
         pass
 
     def move_left(self, moves):
-        pass
+        self.app.operate(moves)
+
 
     def add_solution(self, map, sol):
         pass
