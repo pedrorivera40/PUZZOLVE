@@ -22,23 +22,30 @@ class Player:
         self.image = None
 
     def is_solution(self):
-        top = self.maze_matrix[self.current_y - 1, self.current_x] == 2
-        bottom = self.maze_matrix[self.current_y + 1, self.current_x] == 2
-        right = self.maze_matrix[self.current_y, self.current_x + 1] == 2
-        left = self.maze_matrix[self.current_y, self.current_x - 1] == 2
+        (top, bottom, right, left) = (False, False, False, False)
+        try:
+            top = self.maze_matrix[self.current_y - 1, self.current_x] == 2
+        except: pass
+        try:
+            bottom = self.maze_matrix[self.current_y + 1, self.current_x] == 2
+        except: pass
+        try:
+            right = self.maze_matrix[self.current_y, self.current_x + 1] == 2
+        except: pass
+        try:
+            left = self.maze_matrix[self.current_y, self.current_x - 1] == 2
+        except: pass
         return (top or bottom or right or left)
 
     def moveRight(self):
         #print(self.current_x, self.current_y, self.maze_matrix[self.current_y, self.current_x - 1])
         if(self.is_solution()):
-            print("Solved")
+            print("Puzzle Solved!")
             return "SOLVED"
         if((self.current_x + 1) == self.matrix_column):
             return "CANNOT MOVE"
         elif(self.maze_matrix[self.current_y, self.current_x + 1]):
-
-            return "OBSTACULE"
-
+            return "OBSTACLE"
         else:
             position_x = self.w * (self.current_x + 1)
             while(self.x != position_x):
@@ -47,9 +54,9 @@ class Player:
             self.current_x += 1
 
     def moveLeft(self):
-        print(self.current_x, self.current_y, self.maze_matrix[self.current_y, self.current_x - 1])
+        #print(self.current_x, self.current_y, self.maze_matrix[self.current_y, self.current_x - 1])
         if(self.is_solution()):
-            print("Solved")
+            print("Puzzle Solved!")
             return "SOLVED"
         if((self.current_x - 1) == -1 or self.maze_matrix[self.current_y, self.current_x - 1]):
             return "CANNOT MOVE"
@@ -59,9 +66,9 @@ class Player:
         self.current_x -= 1
 
     def moveUp(self):
-        print(self.current_x, self.current_y, self.maze_matrix[self.current_y, self.current_x - 1])
+        #print(self.current_x, self.current_y, self.maze_matrix[self.current_y, self.current_x - 1])
         if(self.is_solution()):
-            print("Solved")
+            print("Puzzle Solved!")
             return "SOLVED"
         if((self.current_y - 1) == -1 or self.maze_matrix[self.current_y - 1, self.current_x]):
             return "CANNOT MOVE"
@@ -72,10 +79,10 @@ class Player:
         self.current_y -= 1
 
     def moveDown(self):
-        print(self.current_x, self.current_y, self.maze_matrix[self.current_y, self.current_x - 1])
+        #print(self.current_x, self.current_y, self.maze_matrix[self.current_y, self.current_x - 1])
         #print("MOVE DOWN " + str(self.current_x))
         if(self.is_solution()):
-            print("Solved")
+            print("Puzzle Solved!")
             return "SOLVED"
 
         if((self.current_y + 1) == self.matrix_row or self.maze_matrix[self.current_y + 1, self.current_x]):
@@ -117,7 +124,7 @@ class Grid:
         self.grid = [[1] * self.dimensions for n in range(self.dimensions)]
         self.maze_matrix = np.array(self.maze).reshape(8, 10)
         self.solution_image = pygame.image.load("Images/tony_stark.png")
-        print(type(self.maze_matrix))
+        #print(type(self.maze_matrix))
 
     def draw(self, display_surf):
         for row in range(self.N):
@@ -277,7 +284,7 @@ class App:
         pygame.event.pump()
         move = command_tuple[0]
         amount = command_tuple[1]
-        print(self.player.x, self.player.y, self.player.current_x, self.player.current_y, self.player.init_x, self.player.init_y)
+        #print(self.player.x, self.player.y, self.player.current_x, self.player.current_y, self.player.init_x, self.player.init_y)
 
         if (move == 'RIGHT'):
             if(self.player.current_x + amount > 9):
@@ -325,7 +332,7 @@ class App:
             sleep(self.def_delay)
 
     def add_object(self, x, y):
-        self.grid.maze_matrix[x, y] = 1
+        self.grid.maze_matrix[y, x] = 1
         self.on_render()
 
     def set_start(self, x, y):
@@ -337,7 +344,7 @@ class App:
     def set_end(self, x, y):
         (self.solution.current_x, self.solution.current_y) = (x, y)
         (self.solution.x, self.solution.y) = (self.solution.current_x * self.solution.w, self.solution.current_y * self.solution.w)
-        self.grid.maze_matrix[x, y] = 2
+        self.grid.maze_matrix[y, x] = 2
         self.on_render()
 
     def create_map(self, name):
@@ -352,6 +359,12 @@ class App:
 
     def validate_xy(self, x, y):
         return x in range (0, 10) and y in range (0, 8)
+
+    def solve(self):
+        return (self.player.current_x == self.solution.current_x+1) \
+               or (self.player.current_x == self.solution.current_x-1) \
+               or (self.player.current_y == self.solution.current_y-1) \
+               or (self.player.current_y == self.solution.current_y+1)
 
 
 if __name__ == "__main__":

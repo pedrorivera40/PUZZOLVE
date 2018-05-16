@@ -31,9 +31,10 @@ class Controller():
 
 
     def run_solution(self, moves):
+        self.move_to_start()
         self.app.run_solution(moves)
 
-    def create_map(self, name):
+    def create_map(self, name): # TODO -> FUTURE PLANS...
         pass
 
     def move_up(self, moves):
@@ -51,7 +52,9 @@ class Controller():
         pass
 
     def add_obstacle(self, map, obj, x, y):
-        self.app.add_object(x, y)
+        if(self.app.validate_xy(x, y)):
+            self.app.add_object(x, y)
+        else: print("Oops! Coordinate out of range.")
 
     def move_to_start(self):
         self.app.move_to_start()

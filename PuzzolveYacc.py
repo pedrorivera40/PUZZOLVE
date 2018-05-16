@@ -7,8 +7,8 @@ global environment
 
 c = Controller()
 environment = {}
-current_map = Grid.Grid("land") # NONE
-current_solution = 'la' # NONE
+current_map = None # NONE
+current_solution = None # NONE
 built_map = None # BOOLEAN... building map
 built_sol = None # BOOLEAN... building solution
 execution = True
@@ -33,7 +33,7 @@ def p_eval(p): # May add more functions...
          | solution_assign
          | empty
     '''
-    print(p[0])
+    # print(p[0])
 
 def p_go_up(p):
     '''
@@ -71,6 +71,7 @@ def p_run_solution(p):
     if (built_map and built_sol and (current_map != None)):
         if(p[0][1] in current_map.solutions):
             c.run_solution(current_map.solutions[p[0][1]])
+            if(c.app.solve()): print("Puzzle Solved!")
         else: print("Oops! Solution " + p[0][1] + " does not exist on the current map.")
     else: print("Oops! Invalid state for running solutions.")
 
@@ -237,11 +238,16 @@ def p_map_assign(p):
     p[0] = ('MAP', p[4])
     global built_map
     global built_sol
+    global environment
+    global current_map
     if not ((built_map and built_sol == False) or (built_sol == None and built_map == False)): # TODO -> VERIFY Boolean Predicate...
-        c.create_map(p[0][1])
-        built_map = False
-        built_sol = None
-        print("Creating " + p[0][1] + ".")
+        if p[0][1] not in environment:
+            c.create_map(p[0][1])
+            built_map = False
+            built_sol = None
+            current_map = Grid.Grid(p[0][1])
+            environment[p[0][1]] = current_map
+        else: print("Oops! Map already exists.")
     else: print("Oops! Map can only be created while not in creation mode.")
 
 
@@ -250,9 +256,10 @@ def p_solution_assign(p):
     solution_assign : CREATE SOLUTION NAMED ID
     '''
     global built_sol
+    global current_solution
     if (built_map == True) and (built_sol==None):
         b = current_map.add_solution(p[4])
-        print(p[4])
+        current_solution = p[4]
         if b : built_sol = False
         else : print("Oops! Solution " + p[4] + " already exists.")
     else: print('Oops! "CREATE SOLUTION" can only be invoked after a map is built.')
