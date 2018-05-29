@@ -13,6 +13,9 @@ Implement simple and intuitive syntax.
   -Develop problem solving skills.
 The main idea behind this programming language is provide the user with a game-like experience in which the user is able to create puzzles or maps. Each map might have different objects, such as buildings, trees, etc. In addition to the map creation, the user will be able to script the solution of these maps and run these solutions through the programming language. The user would have track of each command via a responsive graphical user interface (GUI) which would respond in real-time line by line.
 
+## Project Demo
+<iframe width="560" height="315" src="https://www.youtube.com/embed/-zGL0RrC-sw" frameborder="0" allowfullscreen></iframe>
+
 ## Language features
 
 ### Educational
@@ -20,15 +23,15 @@ The programming language was designed to facilitate the teaching problem solving
 
 It does this by facilitating the design of puzzles for teachers and it provides an intuitive syntax for students to solve such puzzles with the use of commands, all in a single platform.
 
-### Simple and Easy to Learn Syntax 
+### Simple and Easy to Learn Syntax
  As a programming language that was built for the purpose of teaching kids programming. The language is designed with an intuitive and simple syntax. The main purpose of the programming language is to encourage children to solve problems and convey to them  they can achieve great things.
 
 ### Interactive Mode
-Puzzolve contains an interactive mode, also known as Read-Eval-Print-Loop in many programming languages, as its main “development” environment. Interactive Mode restricts the user to input a single expression and returning its corresponding output. 
+Puzzolve contains an interactive mode, also known as Read-Eval-Print-Loop in many programming languages, as its main “development” environment. Interactive Mode restricts the user to input a single expression and returning its corresponding output.
 
 This allows for easier debugging (catching errors quickly as they happen) and allows for step-by-step approach to create and  solve puzzles within the programming language.
 
-### Imperative and Object Oriented 
+### Imperative and Object Oriented
 The programming language follows an imperative style of programming. Each expression is executed once in the programming language.
 
 The programming language several predefined functions that allow the user to create, solve and check solutions for puzzles. Such predefined functions can be used to create different combination of actions.
@@ -38,7 +41,7 @@ Data Types in the programming language are interpreted.
 ### Free and Open Source
  Puzzolve will be free and open source such that students or developers  can play with the language and add other features to it.
 ### Example program
-     
+
             create map named Erangel
             set start at 0 0
             set end at 7 6
@@ -66,9 +69,9 @@ Data Types in the programming language are interpreted.
 
 
 ## Implementation and Requirement tools.
-###  Python 3.6 - 
+###  Python 3.6 -
 To be used as intermediate code.
-### PLY (Python Lex and Yacc)- 
+### PLY (Python Lex and Yacc)-
 To develop language and interpreter components like the scanner and parser for our programming language.
 ### Pygame -
 To create the responsive visual aided programming interface.
@@ -76,3 +79,10 @@ To create the responsive visual aided programming interface.
 ## Project plan and timeline
 ![projectplan](https://i.imgur.com/iOvjWqM.png)
 
+## Final Report
+Final report can be found here: https://www.scribd.com/document/380496243/Puzzolve-Report
+
+## Media Resources Used
+Sprites: Sithjester
+
+Music: https://www.bensound.com
