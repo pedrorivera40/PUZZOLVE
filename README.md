@@ -13,6 +13,9 @@ Implement simple and intuitive syntax.
   -Develop problem solving skills.
 The main idea behind this programming language is provide the user with a game-like experience in which the user is able to create puzzles or maps. Each map might have different objects, such as buildings, trees, etc. In addition to the map creation, the user will be able to script the solution of these maps and run these solutions through the programming language. The user would have track of each command via a responsive graphical user interface (GUI) which would respond in real-time line by line.
 
+## Project Demo 
+https://drive.google.com/open?id=19gqAPympX067mdW7FWEgq1YA-g07H9_-
+
 ## Language features
 
 ### Educational
@@ -75,4 +78,12 @@ To create the responsive visual aided programming interface.
 
 ## Project plan and timeline
 ![projectplan](https://i.imgur.com/iOvjWqM.png)
+
+## Final Report
+Final report can be found here:
+
+## Media Resources Used
+Sprites: Sithjester
+
+Music: https://www.bensound.com
 
